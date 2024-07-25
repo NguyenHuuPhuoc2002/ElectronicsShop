@@ -9,4 +9,5 @@
         public string MoTaNgan {  get; set; }
         public string TenLoai {  get; set; }
     }
+
 }
