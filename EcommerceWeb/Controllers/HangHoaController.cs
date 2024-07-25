@@ -14,6 +14,8 @@ namespace EcommerceWeb.Controllers
             _context = context;
         }
         
+        //Hiển thị toàn bộ sản phẩm
+        //xử lí cả sidebar tìm sản phẩm theo loại (nếu có)
         public IActionResult Index(int? loai)
         {
             var hangHoas = _context.HangHoas.AsQueryable();
