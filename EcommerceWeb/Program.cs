@@ -1,5 +1,6 @@
 using EcommerceWeb.Data;
 using EcommerceWeb.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceWeb
@@ -21,13 +22,20 @@ namespace EcommerceWeb
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
 
             //automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/KhachHang/DangNhap";
+                options.AccessDeniedPath = "/AccessDenied";
+
+            });
 
             var app = builder.Build();
 
@@ -46,6 +54,7 @@ namespace EcommerceWeb
 
             app.UseSession();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

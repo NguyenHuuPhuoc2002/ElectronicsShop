@@ -25,9 +25,11 @@
     transition: 0.5s;
     z-index: 99;
 }
+
+.container-fluid {
+    margin-top: 90px
+}
 /*** Spinner End ***/
-
-
 /*** Button Start ***/
 .btn {
     font-weight: 600;

@@ -74,11 +74,18 @@ namespace EcommerceWeb.Controllers
             var item = carts.SingleOrDefault(p => p.MaHh == id);
             if (item != null)
             {
-                item.SoLuong = quantity;
+                if(quantity < 1)
+                {
+                    carts.Remove(item);
+                }
+                else
+                {
+                    item.SoLuong = quantity;
+                }
                 
             }
             HttpContext.Session.SetJson(MySetting.CART_KEY, carts);
             return RedirectToAction("Index");
-        }
+        } 
     }
 }
