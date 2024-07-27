@@ -35,14 +35,6 @@ namespace EcommerceWeb.Controllers
             return View(result);
         }
 
-     
-        public IActionResult Search(string? query)
-        {
-            var hangHoas = _context.HangHoas.AsQueryable();
-            if (query != null)
-            {
-                hangHoas = _context.HangHoas.Where(p => p.TenHh.Contains(query));
-            }
 
             var result = hangHoas.Select(p => new HangHoaVM
             {

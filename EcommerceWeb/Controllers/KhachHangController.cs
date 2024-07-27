@@ -28,7 +28,6 @@ namespace EcommerceWeb.Controllers
             return View();
         }
 
-        #region Register
         [HttpPost]
         public IActionResult DangKy(RegisterVM model, IFormFile Hinh)
         {
