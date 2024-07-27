@@ -1,5 +1,7 @@
 using EcommerceWeb.Data;
 using EcommerceWeb.Helpers;
+using EcommerceWeb.Repositories;
+using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +19,11 @@ namespace EcommerceWeb
             //connect database
             builder.Services.AddDbContext<HshopContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("MyDB")));
+
+            //Repository
+            builder.Services.AddScoped<IHangHoaRepository<HangHoaVM>, HangHoaRepository>();
+            builder.Services.AddScoped<ICartRepository<HangHoa>, CartRepository>();
+            builder.Services.AddScoped<IKhachHangRepository<KhachHang>, KhachHangRepository>();
 
             //session
             builder.Services.AddDistributedMemoryCache();

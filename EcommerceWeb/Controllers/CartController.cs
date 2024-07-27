@@ -1,5 +1,6 @@
 ﻿using EcommerceWeb.Data;
 using EcommerceWeb.Helpers;
+using EcommerceWeb.Repositories;
 using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +8,9 @@ namespace EcommerceWeb.Controllers
 {
     public class CartController : Controller
     {
-        private readonly HshopContext _context;
+        private readonly ICartRepository<HangHoa> _context;
 
-        public CartController(HshopContext context) {
+        public CartController(ICartRepository<HangHoa> context) {
             _context = context;
         }
 
@@ -20,14 +21,14 @@ namespace EcommerceWeb.Controllers
             return View(Cart);
         }
 
-        public IActionResult AddToCart(int id, int quantity = 1)
+        public async Task<IActionResult> AddToCart(int id, int quantity = 1)
         {
             var cart = Cart;
             var item = cart.SingleOrDefault(p => p.MaHh == id);
-            if(item == null)
+            if (item == null)
             {
-                var hangHoa = _context.HangHoas.SingleOrDefault(p => p.MaHh == id);
-                if(hangHoa == null)
+                var hangHoa = await _context.GetHangHoa(id); // Sử dụng await ở đây
+                if (hangHoa == null)
                 {
                     TempData["Message"] = $"Không tìm thấy hàng hóa có mã {id}";
                     return Redirect("/404");
@@ -50,6 +51,7 @@ namespace EcommerceWeb.Controllers
             HttpContext.Session.SetJson(MySetting.CART_KEY, cart);
             return RedirectToAction("Index");
         }
+
 
         public IActionResult RemoveCart(int id)
         {

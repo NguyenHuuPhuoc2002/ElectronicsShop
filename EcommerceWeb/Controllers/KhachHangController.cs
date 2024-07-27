@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EcommerceWeb.Data;
 using EcommerceWeb.Helpers;
+using EcommerceWeb.Repositories;
 using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -13,15 +14,16 @@ namespace EcommerceWeb.Controllers
 {
     public class KhachHangController : Controller
     {
-        private readonly HshopContext _context;
+        private readonly IKhachHangRepository<KhachHang> _context;
         private readonly IMapper _mapper;
 
-        public KhachHangController(HshopContext context, IMapper mapper)
+        public KhachHangController(IKhachHangRepository<KhachHang> context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
+        #region Register
         [HttpGet]
         public IActionResult DangKy()
         {
@@ -46,8 +48,8 @@ namespace EcommerceWeb.Controllers
                     {
                         khachHang.Hinh = MyUtil.UploadHinh(Hinh, "khachHang");
                     }
-                    _context.Add(khachHang);
-                    _context.SaveChanges();
+                    _context.Register(khachHang);
+                  
                     return RedirectToAction("Index", "HangHoa");
                 } catch (Exception ex)
                 {
@@ -73,7 +75,7 @@ namespace EcommerceWeb.Controllers
             ViewBag.ReturnUrl = ReturnUrl;
             if (ModelState.IsValid)
             {
-                var khachHang = _context.KhachHangs.SingleOrDefault(kh => kh.MaKh == model.UserName);
+                var khachHang = await _context.GetKhachHang(model);
                 if (khachHang == null)
                 {
                     ModelState.AddModelError("loi", "Không có khách hàng này");
@@ -125,17 +127,21 @@ namespace EcommerceWeb.Controllers
         }
         #endregion
 
+        #region Profile
         [Authorize]
         public IActionResult Profile()
         {
             return View();
         }
+        #endregion
 
+        #region LogOut
         [Authorize]
         public async Task<IActionResult> DangXuat()
         {
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
+        #endregion
     }
 }
