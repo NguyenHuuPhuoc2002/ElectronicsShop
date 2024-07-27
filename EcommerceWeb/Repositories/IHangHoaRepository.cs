@@ -2,8 +2,8 @@
 {
     public interface IHangHoaRepository<T>
     {
-        Task<IEnumerable<T>> GetAllOrById(int? loai);
-        Task<IEnumerable<T>> GetSearch(string? query);
+        Task<IEnumerable<T>> GetAllOrById(int? loai, int page, int pageSize);
+        Task<IEnumerable<T>> GetSearch(string? query, int page, int pageSize);
         Task<T> GetDetail(int? id);
     }
 }

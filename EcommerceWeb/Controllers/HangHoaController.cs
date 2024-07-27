@@ -1,4 +1,5 @@
 ﻿using EcommerceWeb.Data;
+using EcommerceWeb.Helpers;
 using EcommerceWeb.Repositories;
 using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -14,18 +15,44 @@ namespace EcommerceWeb.Controllers
         {
             _context = context;
         }
-        
-        public async Task<IActionResult> Index(int? loai)
+        public async Task<IActionResult> Search(string currentFilter, string? query, int page, int? pageSize)
         {
-            var hangHoas = await _context.GetAllOrById(loai);
-            
+            IEnumerable<HangHoaVM> hangHoas;
+            int pSize = pageSize ?? 9;
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                page = 1;
+            }
+            else
+            {
+                query = currentFilter;
+            }
+            if (!string.IsNullOrEmpty(query))
+            {
+                hangHoas = await _context.GetSearch(query, page, pSize);
+            }
+            else
+            {
+                return RedirectToAction("Index", "HangHoa");
+            }
+            ViewBag.CurrentFilter = query;
             return View(hangHoas);
         }
-
-     
-        public async Task<IActionResult> Search(string? query)
+        public async Task<IActionResult> Index(int? loai, int? page, int? pageSize)
         {
-            var hangHoas = await _context.GetSearch(query);
+            HttpContext.Session.Remove("Query");
+            int pageNumber = page ?? 1;
+            int size = pageSize ?? 9;
+            if (loai.HasValue)
+            {
+                HttpContext.Session.SetJson("loai", loai.Value);
+            }
+            else
+            {
+                loai = HttpContext.Session.GetJson<int?>("loai");
+            }
+            var hangHoas = await _context.GetAllOrById(loai, pageNumber, size);
             return View(hangHoas);
         }
 

@@ -98,12 +98,14 @@
 						<h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<div class="modal-body d-flex align-items-center">
-						<div class="input-group w-75 mx-auto d-flex">
-							<input id="searchText" type="search" class="form-control p-3" placeholder="keywords" aria-describedby="seachButton">
-							<span id="seachButton" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+					<form asp-action="Search" asp-controller="HangHoa" method="post">
+						<div class="modal-body d-flex align-items-center">
+							<div class="input-group w-75 mx-auto d-flex">
+								<input type="search" class="form-control p-3" placeholder="keywords" name="query" value="@ViewBag.CurrentFilter">
+								<button type="submit" class="btn btn-success"><i class="fa fa-search"></i></button>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,8 @@
 ﻿using EcommerceWeb.Data;
 using EcommerceWeb.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
+using X.PagedList.EF;
 
 namespace EcommerceWeb.Repositories
 {
@@ -15,7 +17,7 @@ namespace EcommerceWeb.Repositories
 
         //Hiển thị toàn bộ sản phẩm
         //xử lí cả sidebar tìm sản phẩm theo loại (nếu có)
-        public async Task<IEnumerable<HangHoaVM>> GetAllOrById(int? loai)
+        public async Task<IEnumerable<HangHoaVM>> GetAllOrById(int? loai, int page, int pageSize)
         {
             var hangHoas = _context.HangHoas.AsQueryable();
             if (loai.HasValue)
@@ -31,7 +33,7 @@ namespace EcommerceWeb.Repositories
                 MoTaNgan = p.MoTaDonVi ?? "",
                 TenLoai = p.MaLoaiNavigation.TenLoai
             });
-            return await result.ToListAsync();
+            return await result.ToPagedListAsync(page, pageSize);
         }
 
         public async Task<HangHoaVM> GetDetail(int? id)
@@ -52,10 +54,10 @@ namespace EcommerceWeb.Repositories
             return result;
         }
 
-        public async Task<IEnumerable<HangHoaVM>> GetSearch(string query)
+        public async Task<IEnumerable<HangHoaVM>> GetSearch( string query, int page, int pageSize)
         {
             var hangHoas = _context.HangHoas.AsQueryable();
-            if (query != null)
+            if (!string.IsNullOrEmpty(query))
             {
                 hangHoas = _context.HangHoas.Where(p => p.TenHh.Contains(query));
             }
@@ -69,7 +71,7 @@ namespace EcommerceWeb.Repositories
                 MoTaNgan = p.MoTaDonVi ?? "",
                 TenLoai = p.MaLoaiNavigation.TenLoai
             });
-            return await result.ToListAsync();
+            return await result.ToPagedListAsync(page, pageSize);
         }
     }
 }

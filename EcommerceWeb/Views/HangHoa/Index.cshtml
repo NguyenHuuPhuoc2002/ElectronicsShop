@@ -1,4 +1,5 @@
-﻿@model IEnumerable<EcommerceWeb.ViewModels.HangHoaVM>
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<EcommerceWeb.ViewModels.HangHoaVM>
 @{
     ViewData["Title"] = "Shop";
     Layout = "_DanhSachHangHoa";
@@ -22,8 +23,20 @@
 
 <div class="col-12">
     <div class="pagination d-flex justify-content-center mt-5">
-        <a href="#" class="rounded">&laquo;</a>
-        <a href="#" class="active rounded">1</a>
-        <a href="#" class="rounded">&raquo;</a>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+   {
+       LiElementClasses = new[] { "page-item d-inline-block" },
+       PageClasses = new[] { "page-link rounded" },
+       PreviousElementClass = "rounded",
+       NextElementClass = "rounded",
+       ActiveLiElementClass = "active",
+       DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+       DisplayLinkToLastPage = PagedListDisplayMode.Never,
+       DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+       DisplayLinkToNextPage = PagedListDisplayMode.Always
+   })
     </div>
 </div>
+
+
+
