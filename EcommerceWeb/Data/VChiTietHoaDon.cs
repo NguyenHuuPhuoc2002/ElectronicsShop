@@ -17,5 +17,5 @@ public partial class VChiTietHoaDon
 
     public double GiamGia { get; set; }
 
-    public string TenHh { get; set; } = null!;
+    public string TenHh { get; set; }
 }

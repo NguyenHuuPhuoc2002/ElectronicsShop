@@ -7,7 +7,7 @@ public partial class PhanQuyen
 {
     public int MaPq { get; set; }
 
-    public string? MaPb { get; set; }
+    public string MaPb { get; set; }
 
     public int? MaTrang { get; set; }
 
@@ -19,7 +19,7 @@ public partial class PhanQuyen
 
     public bool Xem { get; set; }
 
-    public virtual PhongBan? MaPbNavigation { get; set; }
+    public virtual PhongBan MaPbNavigation { get; set; }
 
-    public virtual TrangWeb? MaTrangNavigation { get; set; }
+    public virtual TrangWeb MaTrangNavigation { get; set; }
 }

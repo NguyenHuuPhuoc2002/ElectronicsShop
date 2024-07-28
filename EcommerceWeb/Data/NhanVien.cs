@@ -5,13 +5,13 @@ namespace EcommerceWeb.Data;
 
 public partial class NhanVien
 {
-    public string MaNv { get; set; } = null!;
+    public string MaNv { get; set; }
 
-    public string HoTen { get; set; } = null!;
+    public string HoTen { get; set; }
 
-    public string Email { get; set; } = null!;
+    public string Email { get; set; }
 
-    public string? MatKhau { get; set; }
+    public string MatKhau { get; set; }
 
     public virtual ICollection<ChuDe> ChuDes { get; set; } = new List<ChuDe>();
 

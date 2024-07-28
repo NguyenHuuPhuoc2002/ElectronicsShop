@@ -51,10 +51,10 @@ public partial class HshopContext : DbContext
 
     public virtual DbSet<YeuThich> YeuThiches { get; set; }
 
-/*    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-OKEUGVN\\SQLEXPRESS;User ID=sa;Password=123;Initial Catalog=Hshop;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-*/
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-OKEUGVN\\SQLEXPRESS;User ID=sa;Password=123;Initial Catalog=Hshop;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");*/
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BanBe>(entity =>
@@ -64,7 +64,9 @@ public partial class HshopContext : DbContext
             entity.ToTable("BanBe");
 
             entity.Property(e => e.MaBb).HasColumnName("MaBB");
-            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.HoTen).HasMaxLength(50);
             entity.Property(e => e.MaHh).HasColumnName("MaHH");
             entity.Property(e => e.MaKh)
@@ -141,6 +143,7 @@ public partial class HshopContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnName("NgayGY");
             entity.Property(e => e.NgayTl).HasColumnName("NgayTL");
+            entity.Property(e => e.NoiDung).IsRequired();
             entity.Property(e => e.TraLoi).HasMaxLength(50);
 
             entity.HasOne(d => d.MaCdNavigation).WithMany(p => p.Gopies)
@@ -158,6 +161,7 @@ public partial class HshopContext : DbContext
             entity.Property(e => e.DonGia).HasDefaultValue(0.0);
             entity.Property(e => e.Hinh).HasMaxLength(50);
             entity.Property(e => e.MaNcc)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("MaNCC");
             entity.Property(e => e.MoTaDonVi).HasMaxLength(50);
@@ -167,6 +171,7 @@ public partial class HshopContext : DbContext
                 .HasColumnName("NgaySX");
             entity.Property(e => e.TenAlias).HasMaxLength(50);
             entity.Property(e => e.TenHh)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("TenHH");
 
@@ -187,15 +192,21 @@ public partial class HshopContext : DbContext
 
             entity.Property(e => e.MaHd).HasColumnName("MaHD");
             entity.Property(e => e.CachThanhToan)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValue("Cash");
             entity.Property(e => e.CachVanChuyen)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValue("Airline");
-            entity.Property(e => e.DiaChi).HasMaxLength(60);
+            entity.Property(e => e.DiaChi)
+                .IsRequired()
+                .HasMaxLength(60);
+            entity.Property(e => e.DienThoai).HasMaxLength(24);
             entity.Property(e => e.GhiChu).HasMaxLength(50);
             entity.Property(e => e.HoTen).HasMaxLength(50);
             entity.Property(e => e.MaKh)
+                .IsRequired()
                 .HasMaxLength(20)
                 .HasColumnName("MaKH");
             entity.Property(e => e.MaNv)
@@ -235,12 +246,17 @@ public partial class HshopContext : DbContext
             entity.Property(e => e.MaHd)
                 .ValueGeneratedNever()
                 .HasColumnName("MaHD");
-            entity.Property(e => e.CauHoi).HasMaxLength(50);
+            entity.Property(e => e.CauHoi)
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.MaNv)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("MaNV");
             entity.Property(e => e.NgayDua).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.TraLoi).HasMaxLength(50);
+            entity.Property(e => e.TraLoi)
+                .IsRequired()
+                .HasMaxLength(50);
 
             entity.HasOne(d => d.MaNvNavigation).WithMany(p => p.HoiDaps)
                 .HasForeignKey(d => d.MaNv)
@@ -258,11 +274,15 @@ public partial class HshopContext : DbContext
                 .HasColumnName("MaKH");
             entity.Property(e => e.DiaChi).HasMaxLength(60);
             entity.Property(e => e.DienThoai).HasMaxLength(24);
-            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.Hinh)
                 .HasMaxLength(50)
                 .HasDefaultValue("Photo.gif");
-            entity.Property(e => e.HoTen).HasMaxLength(50);
+            entity.Property(e => e.HoTen)
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.MatKhau).HasMaxLength(50);
             entity.Property(e => e.NgaySinh)
                 .HasDefaultValueSql("(getdate())")
@@ -279,7 +299,9 @@ public partial class HshopContext : DbContext
             entity.ToTable("Loai");
 
             entity.Property(e => e.Hinh).HasMaxLength(50);
-            entity.Property(e => e.TenLoai).HasMaxLength(50);
+            entity.Property(e => e.TenLoai)
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.TenLoaiAlias).HasMaxLength(50);
         });
 
@@ -294,10 +316,16 @@ public partial class HshopContext : DbContext
                 .HasColumnName("MaNCC");
             entity.Property(e => e.DiaChi).HasMaxLength(50);
             entity.Property(e => e.DienThoai).HasMaxLength(50);
-            entity.Property(e => e.Email).HasMaxLength(50);
-            entity.Property(e => e.Logo).HasMaxLength(50);
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.Logo)
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.NguoiLienLac).HasMaxLength(50);
-            entity.Property(e => e.TenCongTy).HasMaxLength(50);
+            entity.Property(e => e.TenCongTy)
+                .IsRequired()
+                .HasMaxLength(50);
         });
 
         modelBuilder.Entity<NhanVien>(entity =>
@@ -309,8 +337,12 @@ public partial class HshopContext : DbContext
             entity.Property(e => e.MaNv)
                 .HasMaxLength(50)
                 .HasColumnName("MaNV");
-            entity.Property(e => e.Email).HasMaxLength(50);
-            entity.Property(e => e.HoTen).HasMaxLength(50);
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.HoTen)
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.MatKhau).HasMaxLength(50);
         });
 
@@ -322,9 +354,11 @@ public partial class HshopContext : DbContext
 
             entity.Property(e => e.MaPc).HasColumnName("MaPC");
             entity.Property(e => e.MaNv)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("MaNV");
             entity.Property(e => e.MaPb)
+                .IsRequired()
                 .HasMaxLength(7)
                 .IsUnicode(false)
                 .HasColumnName("MaPB");
@@ -375,6 +409,7 @@ public partial class HshopContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("MaPB");
             entity.Property(e => e.TenPb)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("TenPB");
         });
@@ -387,7 +422,9 @@ public partial class HshopContext : DbContext
 
             entity.Property(e => e.MaTrangThai).ValueGeneratedNever();
             entity.Property(e => e.MoTa).HasMaxLength(500);
-            entity.Property(e => e.TenTrangThai).HasMaxLength(50);
+            entity.Property(e => e.TenTrangThai)
+                .IsRequired()
+                .HasMaxLength(50);
         });
 
         modelBuilder.Entity<TrangWeb>(entity =>
@@ -396,8 +433,11 @@ public partial class HshopContext : DbContext
 
             entity.ToTable("TrangWeb");
 
-            entity.Property(e => e.TenTrang).HasMaxLength(50);
+            entity.Property(e => e.TenTrang)
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.Url)
+                .IsRequired()
                 .HasMaxLength(250)
                 .HasColumnName("URL");
         });
@@ -412,6 +452,7 @@ public partial class HshopContext : DbContext
             entity.Property(e => e.MaHd).HasColumnName("MaHD");
             entity.Property(e => e.MaHh).HasColumnName("MaHH");
             entity.Property(e => e.TenHh)
+                .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("TenHH");
         });
