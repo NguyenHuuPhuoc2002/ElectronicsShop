@@ -41,7 +41,6 @@ namespace EcommerceWeb.Controllers
         }
         public async Task<IActionResult> Index(int? loai, int? page, int? pageSize)
         {
-            HttpContext.Session.Remove("Query");
             int pageNumber = page ?? 1;
             int size = pageSize ?? 9;
             if (loai.HasValue)
