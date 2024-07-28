@@ -10,12 +10,12 @@ namespace EcommerceWeb.Controllers
 {
     public class CartController : Controller
     {
-        private readonly ICartRepository<HangHoa> _context;
-        private readonly HshopContext _db;
+        private readonly ICartRepository _context;
+		private readonly PaypalClient _paypalClient;
 
-        public CartController(ICartRepository<HangHoa> context, HshopContext db) {
+		public CartController(ICartRepository context, PaypalClient paypalClient) {
             _context = context;
-            _db = db;
+			_paypalClient = paypalClient;
         }
 
         public List<CartItem> Carts => HttpContext.Session.GetJson<List<CartItem>>(MySetting.CART_KEY) ?? new List<CartItem>();
@@ -94,21 +94,24 @@ namespace EcommerceWeb.Controllers
             return RedirectToAction("Index");
         }
 
-		[Authorize]
-		[HttpGet]
-		public IActionResult Checkout()
-		{
-			if (Carts.Count == 0)
-			{
-				return Redirect("/");
-			}
+        [Authorize]
+        [HttpGet]
+        public IActionResult Checkout()
+        {
+            if (Carts.Count == 0)
+            {
+                return Redirect("/");
+            }
 
-			return View(Carts);
-		}
+            // Pass the PayPal Client ID to the view
+            ViewBag.PaypalClientId = _paypalClient.ClientId;
+            return View(Carts);
+        }
 
-		[Authorize]
+
+        [Authorize]
 		[HttpPost]
-		public IActionResult Checkout(CheckoutVM model)
+		public async Task<IActionResult> Checkout(CheckoutVM model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -116,7 +119,7 @@ namespace EcommerceWeb.Controllers
 				var khachHang = new KhachHang();
 				if (model.GiongKhachHang)
 				{
-					khachHang = _db.KhachHangs.SingleOrDefault(kh => kh.MaKh == customerId);
+					khachHang = await _context.GetKhachHangByIdAsync(customerId);
 				}
 
 				var hoadon = new HoaDon
@@ -132,12 +135,11 @@ namespace EcommerceWeb.Controllers
 					GhiChu = model.GhiChu
 				};
 
-				_db.Database.BeginTransaction();
+				await _context.BeginTransaction();
 				try
 				{
-					_db.Database.CommitTransaction();
-					_db.Add(hoadon);
-					_db.SaveChanges();
+					await _context.CommitTransaction();
+					await _context.AddHoaDonAsync(hoadon);
 
 					var cthds = new List<ChiTietHd>();
 					foreach (var item in Carts)
@@ -151,20 +153,71 @@ namespace EcommerceWeb.Controllers
 							GiamGia = 0
 						});
 					}
-					_db.AddRange(cthds);
-					_db.SaveChanges();
-
+					await _context.AddRangeChiTietHdAsync(cthds);
+					
 					HttpContext.Session.SetJson(MySetting.CART_KEY, new List<CartItem>());
 
 					return View("Success");
 				}
 				catch
 				{
-					_db.Database.RollbackTransaction();
+					await _context.RollbackTransaction();
 				}
 			}
 
 			return View(Carts);
 		}
+
+		[Authorize]
+		public IActionResult PaymentSuccess()
+		{
+			return View("Success");
+		}
+
+		#region Paypal payment
+		[Authorize]
+		[HttpPost("/Cart/create-paypal-order")] //định nghĩa URL
+		public async Task<IActionResult> CreatePaypalOrder(CancellationToken cancellationToken)
+		{
+			// Thông tin đơn hàng gửi qua Paypal
+			var tongTien = Carts.Sum(p => p.ThanhTien).ToString();
+			var donViTienTe = "USD";
+			var maDonHangThamChieu = "DH" + DateTime.Now.Ticks.ToString();
+
+			try
+			{
+				var response = await _paypalClient.CreateOrder(tongTien, donViTienTe, maDonHangThamChieu);
+
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				var error = new { ex.GetBaseException().Message };
+				return BadRequest(error);
+			}
+		}
+
+		[Authorize]
+		[HttpPost("/Cart/capture-paypal-order")]
+		public async Task<IActionResult> CapturePaypalOrder(string orderID, CancellationToken cancellationToken)
+		{
+			try
+			{
+				var response = await _paypalClient.CaptureOrder(orderID);
+
+				// Lưu database đơn hàng của mình
+
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				var error = new { ex.GetBaseException().Message };
+				return BadRequest(error);
+			}
+		}
+
+		#endregion
 	}
 }
+
+
