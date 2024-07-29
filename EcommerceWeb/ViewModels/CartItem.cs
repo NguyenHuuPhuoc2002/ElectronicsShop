@@ -9,4 +9,6 @@
         public int SoLuong { get; set; }
         public double ThanhTien => SoLuong * DonGia;
     }
+
+
 }

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<EcommerceWeb.ViewModels.CartItem>
+
 @{
     ViewData["Title"] = "Checkout";
 }
@@ -8,6 +9,7 @@
     <div class="container py-5">
         <h1 class="mb-4">Billing details</h1>
         <form asp-action="Checkout" asp-controller="Cart" id="checkoutForm">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
             <div class="row g-5">
                 <div class="col-md-12 col-lg-6 col-xl-7">
                     <div class="form-check my-3">
@@ -17,6 +19,7 @@
                     <div class="form-item delivery-info">
                         <label class="form-label my-3">Người nhận hàng<sup>*</sup></label>
                         <input type="text" name="HoTen" class="form-control">
+
                     </div>
                     <div class="form-item delivery-info">
                         <label class="form-label my-3">Địa chỉ nhận hàng<sup>*</sup></label>
@@ -41,8 +44,17 @@
                         <input type="radio" name="paymentMethod" class="form-check-input" id="Paypal" value="Paypal">
                         <label class="form-check-label" for="Paypal">Thanh toán bằng Paypal</label>
                     </div>
+                    <div class="form-check my-3">
+                        <input type="radio" name="paymentMethod" class="form-check-input" id="VnPay" value="VnPay">
+                        <label class="form-check-label" for="VnPay">Thanh toán bằng VnPay</label>
+                    </div>
                     <div class="form-check my-3 hide-cod">
-                        <button type="submit" class="btn border-secondary text-uppercase text-primary w-100 mt-2">Đặt hàng</button>
+                        @* <button type="submit" name="payment" class="btn border-secondary text-uppercase text-primary w-100 mt-2">Đặt hàng (COD)</button> *@
+                        <input type="submit" name="payment" class="btn border-secondary text-uppercase text-primary w-100 mt-2" value="Thanh toán (COD)">
+                    </div>
+                    <div class="form-check my-3 hide-vnpay">
+                        @* <button type="submit" name="payment" class="btn border-secondary text-uppercase text-primary w-100 mt-2">Thanh toán VNPay</button> *@
+                        <input type="submit" name="payment" class="btn border-secondary text-uppercase text-primary w-100 mt-2" value="Thanh toán VNPay">
                     </div>
                     <div id="paypal-button-container" class="form-item mt-3 hide-paypal" style="max-width:1000px;"></div>
                 </div>
@@ -87,41 +99,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">
-                                    </th>
-                                    <td class="py-5">
-                                        <p class="mb-0 text-dark py-4">Shipping</p>
-                                    </td>
-                                    <td colspan="3" class="py-5">
-                                        <div class="form-check text-start">
-                                            <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-1" name="Shipping-1" value="Shipping">
-                                            <label class="form-check-label" for="Shipping-1">Free Shipping</label>
-                                        </div>
-                                        <div class="form-check text-start">
-                                            <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-2" name="Shipping-1" value="Shipping">
-                                            <label class="form-check-label" for="Shipping-2">Flat rate: $15.00</label>
-                                        </div>
-                                        <div class="form-check text-start">
-                                            <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-3" name="Shipping-1" value="Shipping">
-                                            <label class="form-check-label" for="Shipping-3">Local Pickup: $8.00</label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                    </th>
-                                    <td class="py-5">
-                                        <p class="mb-0 text-dark text-uppercase py-3">TOTAL</p>
-                                    </td>
-                                    <td class="py-5"></td>
-                                    <td class="py-5"></td>
-                                    <td class="py-5">
-                                        <div class="py-3 border-bottom border-top">
-                                            <p class="mb-0 text-dark">$135.00</p>
-                                        </div>
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -151,18 +129,26 @@
             // Ẩn các phần tử khi mới tải trang
             $(".hide-paypal").hide();
             $(".hide-cod").hide();
+            $(".hide-vnpay").hide();
 
             // Theo dõi sự thay đổi của các radio button
             $("input[name='paymentMethod']").change(function () {
                 if ($("#COD").is(":checked")) {
                     $(".hide-paypal").hide();
+                    $(".hide-vnpay").hide();
                     $(".hide-cod").show();
                 } else if ($("#Paypal").is(":checked")) {
                     $(".hide-paypal").show();
                     $(".hide-cod").hide();
+                    $(".hide-vnpay").hide();
+                } else if ($("#VnPay").is(":checked")) {
+                    $(".hide-paypal").hide();
+                    $(".hide-cod").hide();
+                    $(".hide-vnpay").show();
                 } else {
                     $(".hide-paypal").hide();
                     $(".hide-cod").hide();
+                    $(".hide-vnpay").hide();
                 }
             });
         });
@@ -175,19 +161,19 @@
                 tagline: 'false'
             },
             createOrder: (data, actions) => {
-                const form = document.getElementById('checkoutForm');
-                const formData = new FormData(form);
-                const formObject = Object.fromEntries(formData.entries());
+                // const form = document.getElementById('checkoutForm');
+                // const formData = new FormData(form);
+                // const formObject = Object.fromEntries(formData.entries());
 
                 return fetch("/Cart/create-paypal-order", {
                     method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        // Gửi dữ liệu form cùng với yêu cầu
-                        ...formObject
-                    })
+                    // headers: {
+                    //     'Content-Type': 'application/json'
+                    // },
+                    // body: JSON.stringify({
+                    //     // Gửi dữ liệu form cùng với yêu cầu
+                    //     ...formObject
+                    // })
                 }).then((response) => {
                     if (!response.ok) {
                         return response.json().then(error => { throw error; });
