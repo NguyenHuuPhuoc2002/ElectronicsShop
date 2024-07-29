@@ -25,6 +25,7 @@ namespace EcommerceWeb.Controllers
             return View(Carts);
         }
 
+        #region Add - Remove -Update
         public async Task<IActionResult> AddToCart(int id, int quantity = 1)
         {
             var cart = Carts;
@@ -93,6 +94,7 @@ namespace EcommerceWeb.Controllers
             HttpContext.Session.SetJson(MySetting.CART_KEY, carts);
             return RedirectToAction("Index");
         }
+        #endregion
 
         [Authorize]
         [HttpGet]
@@ -108,6 +110,8 @@ namespace EcommerceWeb.Controllers
             return View(Carts);
         }
 
+
+        #region COD payment
 
         [Authorize]
 		[HttpPost]
@@ -138,8 +142,8 @@ namespace EcommerceWeb.Controllers
 				await _context.BeginTransaction();
 				try
 				{
-					await _context.CommitTransaction();
-					await _context.AddHoaDonAsync(hoadon);
+                    await _context.CommitTransaction();
+                    await _context.AddHoaDonAsync(hoadon);
 
 					var cthds = new List<ChiTietHd>();
 					foreach (var item in Carts)
@@ -167,8 +171,9 @@ namespace EcommerceWeb.Controllers
 
 			return View(Carts);
 		}
+        #endregion
 
-		[Authorize]
+        [Authorize]
 		public IActionResult PaymentSuccess()
 		{
 			return View("Success");
@@ -199,15 +204,66 @@ namespace EcommerceWeb.Controllers
 
 		[Authorize]
 		[HttpPost("/Cart/capture-paypal-order")]
-		public async Task<IActionResult> CapturePaypalOrder(string orderID, CancellationToken cancellationToken)
+		public async Task<IActionResult> CapturePaypalOrder(string orderID, CancellationToken cancellationToken, [FromBody] CheckoutVM model)
 		{
 			try
 			{
 				var response = await _paypalClient.CaptureOrder(orderID);
 
-				// Lưu database đơn hàng của mình
+                // Lưu database đơn hàng của mình
+                if (ModelState.IsValid)
+                {
+                    var customerId = HttpContext.User.Claims.SingleOrDefault(p => p.Type == MySetting.CLAIM_CUSTOMER_ID).Value;
+                    var khachHang = new KhachHang();
+                    if (model.GiongKhachHang)
+                    {
+                        khachHang = await _context.GetKhachHangByIdAsync(customerId);
+                    }
 
-				return Ok(response);
+                    var hoadon = new HoaDon
+                    {
+                        MaKh = customerId,
+                        HoTen = model.HoTen ?? khachHang.HoTen,
+                        DiaChi = model.DiaChi ?? khachHang.DiaChi,
+                        DienThoai = model.DienThoai ?? khachHang.DienThoai,
+                        NgayDat = DateTime.Now,
+                        CachThanhToan = "Paypal",
+                        CachVanChuyen = "Online",
+                        MaTrangThai = 0,
+                        GhiChu = model.GhiChu
+                    };
+
+                    await _context.BeginTransaction();
+                    try
+                    {
+                        await _context.CommitTransaction();
+                        await _context.AddHoaDonAsync(hoadon);
+                       
+                        var cthds = new List<ChiTietHd>();
+                        foreach (var item in Carts)
+                        {
+                            cthds.Add(new ChiTietHd
+                            {
+                                MaHd = hoadon.MaHd,
+                                SoLuong = item.SoLuong,
+                                DonGia = item.DonGia,
+                                MaHh = item.MaHh,
+                                GiamGia = 0
+                            });
+                        }
+                        await _context.AddRangeChiTietHdAsync(cthds);
+                       
+                        HttpContext.Session.SetJson(MySetting.CART_KEY, new List<CartItem>());
+
+                        return View("Success");
+                    }
+                    catch
+                    {
+                        await _context.RollbackTransaction();
+                    }
+                }
+
+                    return Ok(response);
 			}
 			catch (Exception ex)
 			{
