@@ -1,6 +1,7 @@
 using EcommerceWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace EcommerceWeb.Controllers
 {
@@ -15,7 +16,8 @@ namespace EcommerceWeb.Controllers
 
         public IActionResult Index()
         {
-            return View();
+			return View();
+	
         }
 
         [Route("/404")]

@@ -97,6 +97,7 @@ namespace EcommerceWeb.Controllers
                             var claims = new List<Claim> {
                                 new Claim(ClaimTypes.Email, khachHang.Email),
                                 new Claim(ClaimTypes.Name, khachHang.HoTen),
+                                new Claim(ClaimTypes.StreetAddress, khachHang.DiaChi),
                                 new Claim(MySetting.CLAIM_CUSTOMER_ID, khachHang.MaKh),
 
 								//claim - role động

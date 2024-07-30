@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@{
+	var emailClaim = User.FindFirst(ClaimTypes.Email)?.Value;
+	var addressClaim = User.FindFirst(ClaimTypes.StreetAddress)?.Value;
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -41,8 +46,15 @@
 			<div class="container topbar bg-primary d-none d-lg-block">
 				<div class="d-flex justify-content-between">
 					<div class="top-info ps-2">
-						<small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123 Street, New York</a></small>
-						<small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
+						@if (addressClaim != null)
+						{
+							
+							<small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">@addressClaim</a></small>
+						}
+						@if (emailClaim != null)
+						{
+							<small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">@emailClaim</a></small>
+						}
 					</div>
 					<div class="top-link pe-2">
 						<a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
@@ -53,7 +65,7 @@
 			</div>
 			<div class="container px-0">
 				<nav class="navbar navbar-light bg-white navbar-expand-xl">
-					<a asp-action="Index" asp-controller="Home" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+					<a asp-action="Index" asp-controller="Home" class="navbar-brand"><h1 class="text-primary display-6">Prestige Plaza</h1></a>
 					<button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
 						<span class="fa fa-bars text-primary"></span>
 					</button>
@@ -111,7 +123,7 @@
 		</div>
 		<!-- Modal Search End -->
 
-		<div class="yellow-background">
+		<div class="container_custom">
 			@RenderBody()
 		</div>
 
@@ -138,8 +150,8 @@
 	<script src="~/js/main.js"></script>
 	@RenderSection("Scripts", required: false)
 	<style>
-		.yellow-background {
-			background-color: #FFFAF0; /* Màu vàng nhạt */
+		.container_custom {
+			background-color: white; /* Màu vàng nhạt */
 			padding: 20px; /* Thêm khoảng cách giữa nội dung và biên */
 			min-height: 400px;
 			margin-top: 100px
