@@ -20,7 +20,6 @@ namespace EcommerceWeb.ViewModels
         [MaxLength(50, ErrorMessage = "Tối đa 50 ký tự")]
         public string HoTen { get; set; }
 
-        [DataType(DataType.Date)]
         public bool GioiTinh { get; set; } = true;
 
         [Display(Name = "Ngày Sinh")]
