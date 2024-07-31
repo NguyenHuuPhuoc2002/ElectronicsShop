@@ -22,6 +22,7 @@ namespace EcommerceWeb.ViewModels
 
         public bool GioiTinh { get; set; } = true;
 
+        [DataType(DataType.Date)]
         [Display(Name = "Ngày Sinh")]
         public DateTime? NgaySinh { get; set; }
 

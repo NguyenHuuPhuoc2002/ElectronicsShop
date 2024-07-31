@@ -3,6 +3,14 @@
     public class MySetting
     {
         public static string CART_KEY = "MYCART";
+        public static string COD = "COD";
+        public static string PAYPAL = "Paypal";
+        public static string VNPAY = "VnPay";
+        public static string STATE = "Chờ xác nhận";
+        public static string SHIPPING_COD = "Grab";
+        public static string SHIPPING_PAYPAL = "Online";
+        public static string SHIPPING_VNPAY = "Online";
+        public static double SHIPPING_FEE = 30000;
         public static string CLAIM_CUSTOMER_ID = "CustomerID";
     }
 

@@ -23,6 +23,8 @@ namespace EcommerceWeb
 
             //Repository
             builder.Services.AddScoped<IHangHoaRepository<HangHoaVM>, HangHoaRepository>();
+            builder.Services.AddScoped<IHoaDonRepository<HoaDonVM>, HoaDonRepository>();
+            builder.Services.AddScoped<IChiTietHoaDonRepository<ChiTietHoaDonVM>, ChiTietHoaDonRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IKhachHangRepository<KhachHang>, KhachHangRepository>();
 

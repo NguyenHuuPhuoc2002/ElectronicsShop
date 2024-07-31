@@ -6,7 +6,7 @@ namespace EcommerceWeb.Repositories
 {
     public interface ICartRepository
     {
-       Task<HangHoa> GetHangHoa(int id);
+		Task<HangHoa> GetHangHoa(int id);
 		Task AddHoaDonAsync(HoaDon hoadon);
 		Task<HoaDon> GetHoaDonByIdAsync(int id);
 		Task AddRangeChiTietHdAsync(IEnumerable<ChiTietHd> cthds);

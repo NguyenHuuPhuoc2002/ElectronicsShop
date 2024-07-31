@@ -154,8 +154,9 @@ namespace EcommerceWeb.Controllers
 					DiaChi = model.DiaChi ?? khachHang.DiaChi,
 					DienThoai = model.DienThoai ?? khachHang.DienThoai,
 					NgayDat = DateTime.Now,
-					CachThanhToan = "COD",
-					CachVanChuyen = "GRAB",
+					CachThanhToan = MySetting.COD,
+					CachVanChuyen = MySetting.SHIPPING_COD,
+					PhiVanChuyen = MySetting.SHIPPING_FEE,
 					MaTrangThai = 0,
 					GhiChu = model.GhiChu
 				};
@@ -202,6 +203,7 @@ namespace EcommerceWeb.Controllers
 		}
 
 		#region Paypal payment
+
 		[Authorize]
 		[HttpPost("/Cart/create-paypal-order")] //định nghĩa URL
 		public async Task<IActionResult> CreatePaypalOrder(CancellationToken cancellationToken)
@@ -249,8 +251,9 @@ namespace EcommerceWeb.Controllers
                         DiaChi = model.DiaChi ?? khachHang.DiaChi,
                         DienThoai = model.DienThoai ?? khachHang.DienThoai,
                         NgayDat = DateTime.Now,
-                        CachThanhToan = "Paypal",
-                        CachVanChuyen = "Online",
+                        CachThanhToan = MySetting.PAYPAL,
+                        CachVanChuyen = MySetting.SHIPPING_PAYPAL,
+                        PhiVanChuyen = MySetting.SHIPPING_FEE,
                         MaTrangThai = 0,
                         GhiChu = model.GhiChu
                     };
@@ -329,8 +332,9 @@ namespace EcommerceWeb.Controllers
                 DiaChi = _model.DiaChi ?? khachHang.DiaChi,
                 DienThoai = _model.DienThoai ?? khachHang.DienThoai,
                 NgayDat = DateTime.Now,
-                CachThanhToan = "VnPay",
-                CachVanChuyen = "Online",
+                CachThanhToan = MySetting.VNPAY,
+                CachVanChuyen = MySetting.SHIPPING_VNPAY,
+                PhiVanChuyen = MySetting.SHIPPING_FEE,
                 MaTrangThai = 0,
                 GhiChu = _model.GhiChu
             };
