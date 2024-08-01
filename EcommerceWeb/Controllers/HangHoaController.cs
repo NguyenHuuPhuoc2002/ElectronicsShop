@@ -4,6 +4,7 @@ using EcommerceWeb.Repositories;
 using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EcommerceWeb.Controllers
 {
@@ -58,6 +59,32 @@ namespace EcommerceWeb.Controllers
         public async Task<IActionResult> Detail(int? id)
         {
             var hangHoas = await _context.GetDetail(id);
+            return View(hangHoas);
+        }
+
+        public async Task<IActionResult> Sort(string currentFilter, string sort, int page, int? pageSize)
+        {
+            IEnumerable<HangHoaVM> hangHoas;
+            int size = pageSize ?? 9;
+
+            if (!string.IsNullOrEmpty(sort))
+            {
+                page = 1;
+            }
+            else
+            {
+                sort = currentFilter;
+            }
+            if (!string.IsNullOrEmpty(sort))
+            {
+                hangHoas = await _context.SortAsync(sort, page, size);
+            }
+            else
+            {
+                return RedirectToAction("Index", "HangHoa");
+            }
+           /* var hangHoas = await _context.SortAsync(sort, pageNumber, size);*/
+            ViewBag.CurrentFilter = sort;
             return View(hangHoas);
         }
     }

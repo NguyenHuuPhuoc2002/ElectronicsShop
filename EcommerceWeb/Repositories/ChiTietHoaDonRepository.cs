@@ -31,8 +31,7 @@ namespace EcommerceWeb.Repositories
                                          DonGia = ct.DonGia,
                                          SoLuong = ct.SoLuong,
                                          GiamGia = ct.GiamGia,
-                                         Anh = hh.Hinh
-
+                                         Anh = hh.Hinh,
                                      })
                            .ToListAsync();
 

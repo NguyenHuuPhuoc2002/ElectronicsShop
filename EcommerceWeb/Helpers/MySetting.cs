@@ -3,6 +3,10 @@
     public class MySetting
     {
         public static string CART_KEY = "MYCART";
+        public static string NAME_SORT_DESCENDING = "Giảm dần theo tên";
+        public static string NAME_SORT_ASCENDING = "Tăng dần theo tên";
+        public static string PRICE_SORT_DESCENDING = "Giảm dần theo giá";
+        public static string PRICE_SORT_ASCENDING = "Tăng dần theo giá";
         public static string COD = "COD";
         public static string PAYPAL = "Paypal";
         public static string VNPAY = "VnPay";

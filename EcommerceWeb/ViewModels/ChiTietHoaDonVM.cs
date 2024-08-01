@@ -10,5 +10,13 @@
         public int SoLuong { get; set; }
         public double GiamGia { get; set; }
         public string Anh { get; set; }
+        public string ThanhTien
+        {
+            get
+            {
+                return (DonGia * SoLuong).ToString("#,##0");
+            }
+        }
+
     }
 }

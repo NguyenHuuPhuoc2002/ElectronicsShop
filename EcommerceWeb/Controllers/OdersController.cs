@@ -17,6 +17,7 @@ namespace EcommerceWeb.Controllers
             _hoaDon = hoaDon;
             _chiTietHoaDon = chiTietHoaDon;
         }
+        [Authorize]
         public async Task<IActionResult> Index(int? page, int? pageSize)
         {
             int pageNumber = page ?? 1;
@@ -30,6 +31,7 @@ namespace EcommerceWeb.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var cTHoaDons = await _chiTietHoaDon.GetOderDetailByIdAsync(id);
+            ViewBag.MaHD = id;
             return View(cTHoaDons);
         }
     }

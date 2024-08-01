@@ -5,20 +5,21 @@
 }
 
 <div class="container-fluid py-5">
+    <h3 style="text-align: center">Đơn Hàng</h3>
     <div class="container py-5">
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-light">
                 <thead>
                     <tr>
-                        <th scope="col-1">Mã hóa đơn</th>
-                        <th scope="col-1">Tên người nhận</th>
-                        <th scope="col-1">Địa chỉ</th>
-                        <th scope="col-1">Ngày đặt</th>
-                        <th scope="col-1">Ngày giao</th>
-                        <th scope="col-1">Thanh toán</th>
-                        <th scope="col-1">Phí vận chuyển</th>
-                        <th scope="col-1">Trạng thái</th>
-                        <th scope="col-4">Action</th>
+                        <th scope="col-1" class="text-center">Mã hóa đơn</th>
+                        <th scope="col-1" class="text-center">Tên người nhận</th>
+                        <th scope="col-1" class="text-center">Địa chỉ</th>
+                        <th scope="col-1" class="text-center">Ngày đặt</th>
+                        <th scope="col-1" class="text-center">Ngày giao dự kiến</th>
+                        <th scope="col-1" class="text-center">Thanh toán</th>
+                        <th scope="col-1" class="text-center">Phí vận chuyển</th>
+                        <th scope="col-1" class="text-center">Trạng thái</th>
+                        <th scope="col-4" class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,33 +27,33 @@
                     {
                         <tr>
                             <td>
-                                <p> @Html.DisplayFor(modelItem => item.MaHd)</p>
+                                <p class ="text-center"> @Html.DisplayFor(modelItem => item.MaHd)</p>
                             </td>
                             <td>
-                                <p> @Html.DisplayFor(modelItem => item.HoTen)</p>
+                                <p class ="text-center"> @Html.DisplayFor(modelItem => item.HoTen)</p>
                             </td>
                             <td>
-                                <p> @Html.DisplayFor(modelItem => item.DiaChi)</p>
+                                <p class ="text-center"> @Html.DisplayFor(modelItem => item.DiaChi)</p>
                             </td>
                             <td>
-                                <p> @Html.DisplayFor(modelItem => item.NgayDat)</p>
+                                <p class="text-center"> @Html.DisplayFor(modelItem => item.NgayDat)</p>
                             </td>
                             <td>
-                                <p> @Html.DisplayFor(modelItem => item.NgayGiao)</p>
+                                <p class="text-center"> @Html.DisplayFor(modelItem => item.NgayGiao)</p>
                             </td>
 
                             <td>
-                                <p> @Html.DisplayFor(modelItem => item.CachThanhToan)</p>
+                                <p class="text-center"> @Html.DisplayFor(modelItem => item.CachThanhToan)</p>
                             </td>
                             <td>
-                                <p> @Html.DisplayFor(modelItem => item.PhiVanChuyen)</p>
+                                <p class="text-center"> @Html.DisplayFor(modelItem => item.PhiVanChuyen)</p>
                             </td>
                             <td>
-                                <p class="text-primary">@Html.DisplayFor(modelItem => item.TrangThai)</p>
+                                <p class="text-primary text-center">@Html.DisplayFor(modelItem => item.TrangThai)</p>
 
                             </td>
                             <td>
-                                <div>
+                                <div class="text-center">
                                     <a asp-action="Detail" asp-route-id ="@item.MaHd" class="w-100 text-danger">Xem chi tiết</a>
                                 </div>
                             </td>

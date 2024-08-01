@@ -1,4 +1,5 @@
 ﻿using EcommerceWeb.Data;
+using EcommerceWeb.Helpers;
 using EcommerceWeb.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
@@ -60,6 +61,42 @@ namespace EcommerceWeb.Repositories
             if (!string.IsNullOrEmpty(query))
             {
                 hangHoas = _context.HangHoas.Where(p => p.TenHh.Contains(query));
+            }
+
+            var result = hangHoas.Select(p => new HangHoaVM
+            {
+                MaHh = p.MaHh,
+                TenHh = p.TenHh,
+                DonGia = p.DonGia ?? 0,
+                Hinh = p.Hinh ?? "",
+                MoTaNgan = p.MoTaDonVi ?? "",
+                TenLoai = p.MaLoaiNavigation.TenLoai
+            });
+            return await result.ToPagedListAsync(page, pageSize);
+        }
+
+        public async Task<IEnumerable<HangHoaVM>> SortAsync(string sort, int page, int pageSize)
+        {
+            var hangHoas = _context.HangHoas.AsQueryable();
+            if (sort == MySetting.NAME_SORT_ASCENDING)
+            {
+                hangHoas = _context.HangHoas.OrderBy(p => p.TenHh);
+            }
+            else if (sort == MySetting.NAME_SORT_DESCENDING)
+            {
+                hangHoas = _context.HangHoas.OrderByDescending(p => p.TenHh);
+            }
+            else if (sort == MySetting.PRICE_SORT_DESCENDING)
+            {
+                hangHoas = _context.HangHoas.OrderByDescending(p => p.DonGia);
+            }
+            else if (sort == MySetting.PRICE_SORT_ASCENDING)
+            {
+                hangHoas = _context.HangHoas.OrderBy(p => p.DonGia);
+            }
+            else
+            {
+                hangHoas = _context.HangHoas;
             }
 
             var result = hangHoas.Select(p => new HangHoaVM
