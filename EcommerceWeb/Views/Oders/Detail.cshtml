@@ -4,7 +4,6 @@
 }
 
 <div class="container-fluid py-5">
-    <h4 class="text-center">Mã hóa đơn: @ViewBag.MaHD</h4>
     <div class="container py-5">
         <div class="table-responsive">
             <table class="table table-light">
@@ -54,8 +53,6 @@
                 <p class="mb-0 text-dark text-capitalize">Tổng tiền: @Model.Sum(p => p.DonGia).ToString("#,##0") $</p>
             </div>
         </div>
-        <div class="text-center">
-            <a asp-action="Index">Quay lại</a>
         </div>
     </div>
 </div>
