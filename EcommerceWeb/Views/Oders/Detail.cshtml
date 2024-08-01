@@ -1,59 +1,112 @@
-﻿@model IEnumerable<EcommerceWeb.ViewModels.ChiTietHoaDonVM>
+﻿﻿@using EcommerceWeb.ViewModels
+@model ChiTietHoaDonViewModel
 @{
     ViewData["Title"] = "Chi tiết đơn hàng";
 }
 
 <div class="container-fluid py-5">
     <div class="container py-5">
-        <div class="table-responsive">
-            <table class="table table-light">
-                <thead>
-                    <tr>
-                       @*  <th scope="col">Mã hóa đơn</th> *@
-                        <th scope="col" class="text-center">Ảnh</th>
-                        <th scope="col" class="text-center">Tên sản phẩm</th>
-                        <th scope="col" class="text-center">Giá</th>
-                        <th scope="col" class="text-center">Số lượng</th>
-                        <th scope="col" class="text-center">Giảm giá</th>
-                        <th scope="col" class="text-center">Thành tiền</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4 col-xl-3">
+                <div class="row g-4 fruite">
+                    <div class="col-lg-12">
+                        <div class="mb-5">
+                            @await Html.PartialAsync("_TimKiemPanel")
+                        </div>
+                        <div class="mb-2">
+                            @await Component.InvokeAsync("MenuLoai")
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="position-relative">
+                        <img src="~/Hinh/QuangCao/nuochoa.png" class="img-fluid w-100 rounded" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive col-lg-8 col-xl-9">
+                <h4 class="text-center mb-5">Mã hóa đơn: @ViewBag.MaHD</h4>
+                <table class="table table-light">
+                    <thead>
                         <tr>
-                           @*  <td>
-                                <p class="mb-0 mt-4"> @Html.DisplayFor(modelItem => item.MaHD)</p>
-                            </td> *@
-                            <th scope="row">
-                                <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
-                                    <img src="~/Hinh/HangHoa/@item.Anh" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="@item.TenHH">
-                                </div>
-                            </th>
-                            <td>
-                                <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.TenHH)</p>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.DonGia) $</p>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.SoLuong)</p>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.GiamGia)</p>
-                            </td>
-                            <td>
-                                <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.ThanhTien) $</p>
-                            </td>
+                            @*  <th scope="col">Mã hóa đơn</th> *@
+                            <th scope="col" class="text-center">Ảnh</th>
+                            <th scope="col" class="text-center">Tên sản phẩm</th>
+                            <th scope="col" class="text-center">Giá</th>
+                            <th scope="col" class="text-center">Số lượng</th>
+                            <th scope="col" class="text-center">Giảm giá</th>
+                            <th scope="col" class="text-center">Thành tiền</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.chiTietHangHoaVMs)
+                        {
+                            <tr>
+                                @*  <td>
+                            <p class="mb-0 mt-4"> @Html.DisplayFor(modelItem => item.MaHD)</p>
+                            </td> *@
+                                <th scope="row">
+                                    <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
+                                        <img src="~/Hinh/HangHoa/@item.Anh" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="@item.TenHH">
+                                    </div>
+                                </th>
+                                <td>
+                                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.TenHH)</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.DonGia) $</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.SoLuong)</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.GiamGia)</p>
+                                </td>
+                                <td>
+                                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.ThanhTien) $</p>
+                                </td>
+                            </tr>
+                           
+                        }
+                    </tbody>
+                </table>
+                <div class="py-3 text-end">
+                    <p class="mb-0 text-dark text-capitalize mb-3">Phí vận chuyển: 30 $</p>
+                    <p class="mb-0 text-danger text-capitalize">Tổng tiền: @Model.TongTien.ToString("#,##0") $</p>
+                    <!-- MODAL START -->
+                    <div class="modal fade" id="delete_cancel_oder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận hủy !</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-start">
+                                    Bạn muốn hủy đơn hàng này không?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary text-white" data-bs-dismiss="modal">Bỏ qua</button>
+                                    <a asp-action="CancelOder" asp-route-id="@ViewBag.MaHD" class="btn btn-primary text-white">
+                                        Đồng ý
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END MODAL -->
+                    @if (TempData["State"] != null)
+                    {
+                        <a class="btn border-secondary text-primary mt-3" data-bs-toggle="modal" data-bs-target="#delete_cancel_oder">Hủy đơn hàng</a>
                     }
-                </tbody>
-            </table>
-            <div class="py-3 text-end">
-                <p class="mb-0 text-dark text-capitalize">Tổng tiền: @Model.Sum(p => p.DonGia).ToString("#,##0") $</p>
+                </div>
+
+                <div class="text-center">
+                    <a asp-action="Index">Quay lại</a>
+                </div>
             </div>
         </div>
-        </div>
+
     </div>
 </div>
 

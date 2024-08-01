@@ -14,7 +14,7 @@
         public static string SHIPPING_COD = "Grab";
         public static string SHIPPING_PAYPAL = "Online";
         public static string SHIPPING_VNPAY = "Online";
-        public static double SHIPPING_FEE = 30000;
+        public static double SHIPPING_FEE = 30;
         public static string CLAIM_CUSTOMER_ID = "CustomerID";
     }
 

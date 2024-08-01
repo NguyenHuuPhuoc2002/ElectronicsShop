@@ -10,11 +10,11 @@
         public int SoLuong { get; set; }
         public double GiamGia { get; set; }
         public string Anh { get; set; }
-        public string ThanhTien
+        public double ThanhTien
         {
             get
             {
-                return (DonGia * SoLuong).ToString("#,##0");
+                return (DonGia * SoLuong);
             }
         }
 

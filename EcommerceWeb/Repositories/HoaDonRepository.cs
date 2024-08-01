@@ -33,12 +33,43 @@ namespace EcommerceWeb.Repositories
                                         CachThanhToan = hd.CachThanhToan,
                                         PhiVanChuyen = hd.PhiVanChuyen,
                                         TrangThai = tt.TenTrangThai,
+                                        MaTrangThai = hd.MaTrangThai,
                                         MaHd = hd.MaHd,
                                         GhiChu = hd.GhiChu
                                     })
                            .ToPagedListAsync(page, pageSize);
 
             return listHoaDon;
+        }
+
+        public async Task<HoaDonVM> GetOderByIdAsync(int id)
+        {
+            var data = await _context.HoaDons.SingleOrDefaultAsync(p => p.MaHd == id);
+            var hoaDon = new HoaDonVM
+            {
+                MaHd = data.MaHd,
+                MaKh = data.MaKh,
+                NgayDat = data.NgayDat,
+                NgayGiao = data.NgayGiao,
+                HoTen = data.HoTen,
+                DiaChi = data.DiaChi,
+                DienThoai = data.DienThoai,
+                CachThanhToan = data.CachThanhToan,
+                PhiVanChuyen = data.PhiVanChuyen,
+                TrangThai = "",
+                MaTrangThai = data.MaTrangThai,
+                MaNv = data.MaNv,
+                GhiChu = data.GhiChu
+            };
+            return hoaDon;
+        }
+
+        public async Task UpdateStateAsync(int id)
+        {
+            var data = await _context.HoaDons.SingleOrDefaultAsync(p => p.MaHd == id);
+            data.MaTrangThai = -1;
+            _context.HoaDons.Update(data);
+            _context.SaveChanges();
         }
     }
 }

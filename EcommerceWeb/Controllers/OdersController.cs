@@ -21,7 +21,7 @@ namespace EcommerceWeb.Controllers
         public async Task<IActionResult> Index(int? page, int? pageSize)
         {
             int pageNumber = page ?? 1;
-            int size = pageSize ?? 10;
+            int size = pageSize ?? 3;
 
             var customerId = HttpContext.User.Claims.SingleOrDefault(p => p.Type == MySetting.CLAIM_CUSTOMER_ID).Value;
             var hoaDons = await _hoaDon.GetAllByIdAsync(customerId, pageNumber, size);
@@ -31,8 +31,32 @@ namespace EcommerceWeb.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var cTHoaDons = await _chiTietHoaDon.GetOderDetailByIdAsync(id);
+            var cTHoaDonsVM = new ChiTietHoaDonViewModel
+            {
+                chiTietHangHoaVMs = cTHoaDons,
+                TongTien = (cTHoaDons.Sum(p => Convert.ToDouble(p.ThanhTien)) + MySetting.SHIPPING_FEE),
+
+            };
+            var hoaDon = await _hoaDon.GetOderByIdAsync(id);
+            var state = hoaDon.MaTrangThai;
+
+            if (state != -1)
+            {
+                TempData["State"] = state;
+            }
+            else
+            {
+                TempData["State"] = null;
+            }
             ViewBag.MaHD = id;
-            return View(cTHoaDons);
+            return View(cTHoaDonsVM);
+        }
+
+        public async Task<IActionResult> CancelOder(int id)
+        {
+            await _hoaDon.UpdateStateAsync(id);
+            
+            return RedirectToAction("Index");
         }
     }
 }

@@ -25,6 +25,7 @@ namespace EcommerceWeb.ViewModels
         public double PhiVanChuyen { get; set; }
 
         public string TrangThai { get; set; }
+        public int MaTrangThai { get; set; }
 
         public string MaNv { get; set; }
 

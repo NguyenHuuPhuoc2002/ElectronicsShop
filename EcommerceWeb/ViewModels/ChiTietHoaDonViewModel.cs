@@ -2,7 +2,8 @@
 {
     public class ChiTietHoaDonViewModel
     {
-        public List<ChiTietHangHoaVM> chiTietHangHoaVMs { get; set; }
-        public double ThanhTien {  get; set; }
+        public IEnumerable<ChiTietHoaDonVM> chiTietHangHoaVMs { get; set; }
+        public double TongTien {  get; set; }
+        public int MaTrangThai {  get; set; }
     }
 }
