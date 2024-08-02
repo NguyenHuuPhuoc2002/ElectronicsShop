@@ -1,0 +1,72 @@
+﻿@model IEnumerable<EcommerceWeb.ViewModels.HangHoaVM>
+<table class="table table-light text-start">
+    <thead>
+        <tr>
+            <th scope="col">Ảnh</th>
+            <th scope="col">Mã hàng</th>
+            <th scope="col">Tên sản phẩm</th>
+            <th scope="col">Giá</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Giảm giá</th>
+            <th scope="col">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">
+                    <div class="d-flex align-items-center">
+                        <img src="~/Hinh/HangHoa/@item.Hinh" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="@item.TenHh">
+                    </div>
+                </th>
+                <td>
+                    <p class="mb-0 mt-4">@item.MaHh</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@item.TenHh</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@item.DonGia</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@item.MoTaNgan</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@item.SoLuongTon</p>
+                </td>
+                <!-- Modal -->
+
+                <div class="modal fade" id="delete_@item.MaHh" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận xóa !</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-start">
+                                Bạn muốn xóa sản phẩm "@item.TenHh" không?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Bỏ qua</button>
+                                <a asp-action="Delete" asp-asp-controller="Product" asp-route-id="@item.MaHh" class="btn btn-primary text-white">
+                                    Đồng ý
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <td>
+                    <a class="btn btn-md rounded-circle bg-light border mt-4">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="btn btn-md rounded-circle bg-light border mt-4" data-bs-toggle="modal" data-bs-target="#delete_@item.MaHh">
+                        <i class="bi bi-trash text-danger"></i>
+                    </a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

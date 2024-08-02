@@ -51,10 +51,10 @@ public partial class HshopContext : DbContext
 
     public virtual DbSet<YeuThich> YeuThiches { get; set; }
 
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+/*    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-OKEUGVN\\SQLEXPRESS;User ID=sa;Password=123;Initial Catalog=Hshop;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");*/
-
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-OKEUGVN\\SQLEXPRESS;User ID=sa;Password=123;Initial Catalog=Hshop;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+*/
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BanBe>(entity =>
@@ -102,7 +102,6 @@ public partial class HshopContext : DbContext
 
             entity.HasOne(d => d.MaHhNavigation).WithMany(p => p.ChiTietHds)
                 .HasForeignKey(d => d.MaHh)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_OrderDetails_Products");
         });
 

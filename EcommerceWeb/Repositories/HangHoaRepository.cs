@@ -1,6 +1,7 @@
 ﻿using EcommerceWeb.Data;
 using EcommerceWeb.Helpers;
 using EcommerceWeb.ViewModels;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 using X.PagedList.EF;
@@ -14,6 +15,22 @@ namespace EcommerceWeb.Repositories
         public HangHoaRepository(HshopContext context) 
         {
             _context = context;
+        }
+
+        public Task AddAsync(HangHoaVM product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteAsync(int? id)
+        {
+            var hangHoa = _context.HangHoas.Include(h => h.ChiTietHds).FirstOrDefault(h => h.MaHh == id);
+            if(hangHoa != null)
+            {
+                _context.Remove(hangHoa);
+                _context.SaveChanges();
+            }
+            
         }
 
         //Hiển thị toàn bộ sản phẩm

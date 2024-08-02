@@ -16,6 +16,7 @@ namespace EcommerceWeb.Repositories
         {
             _context = context;
         }
+
         public async Task<IEnumerable<HoaDonVM>> GetAllByIdAsync(string id, int page, int pageSize)
         {
             var listHoaDon = await (from hd in _context.HoaDons
