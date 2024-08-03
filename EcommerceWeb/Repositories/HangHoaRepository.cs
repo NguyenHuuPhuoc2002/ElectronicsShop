@@ -1,4 +1,5 @@
-﻿using EcommerceWeb.Data;
+﻿using AutoMapper;
+using EcommerceWeb.Data;
 using EcommerceWeb.Helpers;
 using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -11,21 +12,12 @@ namespace EcommerceWeb.Repositories
     public class HangHoaRepository : IHangHoaRepository<HangHoaVM>
     {
         private readonly HshopContext _context;
+        private readonly IMapper _mapper;
 
-        public HangHoaRepository(HshopContext context) 
+        public HangHoaRepository(HshopContext context, IMapper mapper) 
         {
             _context = context;
-        }
-
-        public async Task DeleteAsync(int? id)
-        {
-            var hangHoa = _context.HangHoas.Include(h => h.ChiTietHds).FirstOrDefault(h => h.MaHh == id);
-            if(hangHoa != null)
-            {
-                _context.Remove(hangHoa);
-                _context.SaveChanges();
-            }
-            
+            _mapper = mapper;
         }
 
         //Hiển thị toàn bộ sản phẩm

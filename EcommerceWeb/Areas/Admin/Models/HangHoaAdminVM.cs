@@ -1,5 +1,7 @@
 ﻿using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using ShoppingCart.Models.Repository.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcommerceWeb.Areas.Admin.Models
 {
@@ -28,5 +30,11 @@ namespace EcommerceWeb.Areas.Admin.Models
         public string MoTa { get; set; }
         [Display(Name = "Mã nhà cung cấp")]
         public string MaNcc { get; set; }
+        [NotMapped]
+        [FileExtention(ErrorMessage = "Allowed extensions are .jpg, .png, .jpeg")]
+
+        [Display(Name = "Hình ảnh")]
+
+        public IFormFile? ImageUpload { get; set; }
     }
 }

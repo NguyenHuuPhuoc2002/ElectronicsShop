@@ -1,4 +1,6 @@
-﻿using EcommerceWeb.Data;
+﻿using EcommerceWeb.Areas.Admin.Models;
+using EcommerceWeb.Areas.Admin.Repositories;
+using EcommerceWeb.Data;
 using EcommerceWeb.Helpers;
 using EcommerceWeb.Repositories;
 using EcommerceWeb.Services;
@@ -27,6 +29,7 @@ namespace EcommerceWeb
             builder.Services.AddScoped<IChiTietHoaDonRepository<ChiTietHoaDonVM>, ChiTietHoaDonRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IKhachHangRepository<KhachHang>, KhachHangRepository>();
+            builder.Services.AddScoped<IHangHoaAdminRepository<HangHoaAdminVM>, HangHoaAdminRepository>();
 
             //session
             builder.Services.AddDistributedMemoryCache();

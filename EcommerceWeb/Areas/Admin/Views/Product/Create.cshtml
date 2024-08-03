@@ -1,57 +1,101 @@
 ﻿@model EcommerceWeb.Areas.Admin.Models.HangHoaAdminVM
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm mới sản phẩm";
 }
-
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Thông báo</h5>
+            </div>
+            <div class="modal-body text-start ">
+                <span id="messageContent" class="text-danger">@ViewBag.Message</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
 <div class="row w3-container">
     <h1>Thêm mới sản phẩm</h1>
     <div class="col-md-6">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
             <div class="form-group">
-                <label asp-for="TenHh" class="control-label"></label>
+                <label asp-for="TenHh" class="control-label fw-bold mt-2 mb-2"></label>
                 <input asp-for="TenHh" class="form-control" />
                 <span asp-validation-for="TenHh" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MaLoai" class="control-label"></label>
-                <select asp-for="MaLoai" class ="form-control" asp-items="@ViewBag.MaLoai"></select>
+                <label asp-for="MaLoai" class="control-label fw-bold mt-2 mb-2"></label>
+                <select asp-for="MaLoai" class ="form-control" asp-items="ViewBag.Loais">
+                    <option>Chọn</option>
+                </select>
+                <span asp-validation-for="MaLoai" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="MoTaDonVi" class="control-label"></label>
+                <label asp-for="MoTaDonVi" class="control-label fw-bold mt-2 mb-2"></label>
                 <input asp-for="MoTaDonVi" class="form-control" />
                 <span asp-validation-for="MoTaDonVi" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DonGia" class="control-label"></label>
+                <label asp-for="DonGia" class="control-label fw-bold mt-2 mb-2"></label>
                 <input asp-for="DonGia" class="form-control" type="number" />
                 <span asp-validation-for="DonGia" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GiamGia" class="control-label"></label>
+                <label asp-for="GiamGia" class="control-label fw-bold mt-2 mb-2"></label>
                 <input asp-for="GiamGia" class="form-control" type="number"/>
                 <span asp-validation-for="GiamGia" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MoTa" class="control-label"></label>
+                <label asp-for="MoTa" class="control-label fw-bold mt-2 mb-2"></label>
                 <input asp-for="MoTa" class="form-control" />
                 <span asp-validation-for="MoTa" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MaNcc" class="control-label"></label>
-                <select asp-for="MaNcc" class ="form-control" asp-items="ViewBag.MaNcc"></select>
+                <label asp-for="MaNcc" class="control-label fw-bold mt-2 mb-2"></label>
+                <select asp-for="MaNcc" class="form-control" asp-items="ViewBag.NhaCungCaps">
+                    <option>Chọn</option>
+                </select>
+                <span asp-validation-for="MaNcc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUpload" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="ImageUpload" type="file" class="form-control" />
+                <span asp-validation-for="ImageUpload" class="text-danger"></span>
+                @*   review hinh anh *@
+                <img id="imgpreview" class="pt-2" />
             </div>
             <div class="form-group mt-3">
                 <button type="submit" value="Create" class="btn btn-primary w-100" >Thêm</button>
             </div>
         </form>
-        <div class="mt-3 text-center">
+        <div class="mt-3 text-center mb-5">
             <a asp-action="Index">Quay lại</a>
         </div>
     </div>
    
 </div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var messageElement = document.getElementById("messageContent");
+            if (messageElement && messageElement.innerText.trim() !== "") {
+                $('#messageModal').modal('show');
+            }
+        });
+    </script>
+    <script>
+        $("#ImageUpload").change(function () {
+            readURL(this)
+        })
+    </script>
 
-
-
+}
