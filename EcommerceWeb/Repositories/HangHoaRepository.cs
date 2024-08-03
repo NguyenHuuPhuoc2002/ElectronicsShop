@@ -17,11 +17,6 @@ namespace EcommerceWeb.Repositories
             _context = context;
         }
 
-        public Task AddAsync(HangHoaVM product)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task DeleteAsync(int? id)
         {
             var hangHoa = _context.HangHoas.Include(h => h.ChiTietHds).FirstOrDefault(h => h.MaHh == id);
