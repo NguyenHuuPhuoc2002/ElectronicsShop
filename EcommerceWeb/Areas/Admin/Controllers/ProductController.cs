@@ -149,5 +149,83 @@ namespace EcommerceWeb.Areas.Admin.Controllers
 
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit (int id)
+        {
+            ViewBag.NhaCungCaps = new SelectList(_context.NhaCungCaps, "MaNcc", "TenCongTy");
+            ViewBag.Loais = new SelectList(_context.Loais, "MaLoai", "TenLoai");
+            var product = await _admin.GetById(id);
+            return View(product);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, HangHoaAdminVM hangHoa)
+        {
+            ViewBag.Categories = new SelectList(_context.NhaCungCaps, "MaNcc", "TenCongTy", hangHoa.MaNcc);
+            ViewBag.Brands = new SelectList(_context.Loais, "MaLoai", "TenLoai", hangHoa.MaLoai);
+            var existed_hangHoa = await _admin.GetById(id);
+
+            if (id == 0)
+            {
+                return Redirect("/404");
+            }
+            if(ModelState.IsValid)
+            {
+                if(hangHoa.ImageUpload != null)
+                {
+                    //upload new image
+                    string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "Hinh/HangHoa");
+                    string imageName = Guid.NewGuid().ToString() + "_" + hangHoa.ImageUpload.FileName;
+                    string filePath = Path.Combine(uploadsDir, imageName);
+
+                    //delete old anh
+                    string oldfilePath = Path.Combine(uploadsDir, existed_hangHoa.Hinh);
+                    try
+                    {
+                        if (System.IO.File.Exists(oldfilePath))
+                        {
+                            System.IO.File.Delete(oldfilePath);
+                        }
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("", "Loi Delete");
+                    }
+
+                    FileStream fs = new FileStream(filePath, FileMode.Create);
+                    await hangHoa.ImageUpload.CopyToAsync(fs);
+                    fs.Close();
+                    existed_hangHoa.Hinh = imageName;
+                    
+                }
+                existed_hangHoa.TenHh = hangHoa.TenHh;
+                existed_hangHoa.MoTaDonVi = hangHoa.MoTaDonVi;
+                existed_hangHoa.MoTa = hangHoa.MoTa;
+                existed_hangHoa.GiamGia = hangHoa.GiamGia;
+                existed_hangHoa.DonGia = hangHoa.DonGia;
+                existed_hangHoa.MaLoai = hangHoa.MaLoai;
+                existed_hangHoa.MaNcc = hangHoa.MaNcc;
+                await _admin.UpdateAsync(id, existed_hangHoa);
+                TempData["Message"] = "Chỉnh sửa thành công !";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["error"] = "Model có một vài thứ đang bị lỗi";
+                var errors = new List<string>();
+                foreach (var value in ModelState.Values)
+                {
+                    foreach (var error in value.Errors)
+                    {
+                        errors.Add(error.ErrorMessage);
+                    }
+                }
+                var errorMessage = string.Join("\n", errors);
+                return BadRequest(errorMessage);
+            }
+        }
     }
 }

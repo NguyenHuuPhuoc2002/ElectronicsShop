@@ -1,8 +1,9 @@
 ﻿@model EcommerceWeb.Areas.Admin.Models.HangHoaAdminVM
 
 @{
-    ViewData["Title"] = "Thêm mới sản phẩm";
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
 }
+
 <!-- Modal -->
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -20,36 +21,36 @@
     </div>
 </div>
 <!-- Modal -->
+
 <div class="row w3-container">
-    <h1>Thêm mới sản phẩm</h1>
+    <h1>Chỉnh sửa sản phẩm</h1>
     <hr />
     <div class="col-md-6">
-        <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <div class="form-group">
                 <label asp-for="TenHh" class="control-label fw-bold mt-2 mb-2"></label>
-                <input asp-for="TenHh" class="form-control" />
+                <input asp-for="TenHh" class="form-control" value="@Model.TenHh" />
                 <span asp-validation-for="TenHh" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MoTaDonVi" class="control-label fw-bold mt-2 mb-2"></label>
-                <input asp-for="MoTaDonVi" class="form-control" />
+                <textarea asp-for="MoTaDonVi" class="form-control" rows="2" cols="50">@Model.MoTaDonVi</textarea>
                 <span asp-validation-for="MoTaDonVi" class="text-danger"></span>
-            </div>
+            </div>        
             <div class="form-group">
                 <label asp-for="MoTa" class="control-label fw-bold mt-2 mb-2"></label>
-                <input asp-for="MoTa" class="form-control" />
+                <textarea asp-for="MoTa" class="form-control" rows="7" cols="50">@Model.MoTa</textarea>
                 <span asp-validation-for="MoTa" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DonGia" class="control-label fw-bold mt-2 mb-2"></label>
-                <input asp-for="DonGia" class="form-control" type="number" />
+                <input asp-for="DonGia" class="form-control" type="number" value="@Model.DonGia" />
                 <span asp-validation-for="DonGia" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="GiamGia" class="control-label fw-bold mt-2 mb-2"></label>
-                <input asp-for="GiamGia" class="form-control" type="number" />
+                <input asp-for="GiamGia" class="form-control" type="number" value="@Model.GiamGia" />
                 <span asp-validation-for="GiamGia" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -70,19 +71,23 @@
                 <label asp-for="ImageUpload" class="control-label fw-bold mt-2 mb-2"></label>
                 <input asp-for="ImageUpload" type="file" class="form-control" />
                 <span asp-validation-for="ImageUpload" class="text-danger"></span>
-                @*   review hinh anh *@
-                <img id="imgpreview" class="pt-2" />
+                <img id="imgpreview" class="pt-2" src="~/Hinh/HangHoa/@Model.Hinh" width="200" height="200" />
             </div>
             <div class="form-group mt-3">
-                <button type="submit" value="Create" class="btn btn-primary w-100">Thêm</button>
+                <button type="submit" value="Create" class="btn btn-primary w-100">Chỉnh sửa</button>
             </div>
         </form>
         <div class="mt-3 text-center mb-5">
             <a asp-action="Index">Quay lại</a>
         </div>
     </div>
-   
+
 </div>
+
+<div>
+    <a asp-action="Index">Quay lại</a>
+</div>
+
 @section Scripts {
     <script>
         $(document).ready(function () {

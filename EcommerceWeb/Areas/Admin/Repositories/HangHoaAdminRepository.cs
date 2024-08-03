@@ -49,5 +49,17 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             return hangHoa;
         }
 
+        public async Task UpdateAsync(int id, HangHoaAdminVM product)
+        {
+            var hangHoa = await _context.HangHoas.SingleOrDefaultAsync(p => p.MaHh == id);
+            if (hangHoa != null)
+            {
+                _mapper.Map(product, hangHoa);
+             
+                _context.Update(hangHoa);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }
