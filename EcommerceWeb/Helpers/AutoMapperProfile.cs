@@ -13,6 +13,8 @@ namespace EcommerceWeb.Helpers
             RegisterVM.HoTen)).ReverseMap();*/
             CreateMap<HangHoa, HangHoaVM>().ReverseMap();
             CreateMap<HangHoa, HangHoaAdminVM>().ReverseMap();
+            CreateMap<Loai, LoaiAdminModel>().ReverseMap();
+            CreateMap<NhaCungCapAdminModel, NhaCungCap>().ReverseMap();
         }
     }
 }

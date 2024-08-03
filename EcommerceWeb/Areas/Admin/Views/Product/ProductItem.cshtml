@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<EcommerceWeb.ViewModels.HangHoaVM>
-<table class="table table-light text-start">
+<table class="table table-light text-start table-bordered table-hover">
     <thead>
         <tr>
             <th scope="col">Ảnh</th>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <!-- Modal -->
-                <td>
+                <td >
                     <a asp-action="Edit" asp-controller="Product" asp-route-id ="@item.MaHh" class="btn btn-md rounded-circle bg-light border mt-4">
                         <i class="bi bi-pencil-square"></i>
                     </a>

@@ -31,6 +31,10 @@ namespace EcommerceWeb
             builder.Services.AddScoped<IKhachHangRepository<KhachHang>, KhachHangRepository>();
             builder.Services.AddScoped<IHangHoaAdminRepository<HangHoaAdminVM>, HangHoaAdminRepository>();
 
+            //Repository - Admin
+            builder.Services.AddScoped<ILoaiRepository<LoaiAdminModel>, LoaiRepository>();
+            builder.Services.AddScoped<INhaCungCapRepository<NhaCungCapAdminModel>, NhaCungCapRepository>();
+
             //session
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>

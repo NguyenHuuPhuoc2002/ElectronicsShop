@@ -41,7 +41,11 @@
         </div>
         <div class="w3-bar-block">
             <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-            <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="bi bi-cart3"></i>  Hàng hóa</a>
+            <a asp-action="Index" asp-controller="Product" class="w3-bar-item w3-button w3-padding w3-blue"><i class="bi bi-bag-fill"></i>  Hàng hóa</a>
+            <a asp-action="Index" asp-controller="Loai" class="w3-bar-item w3-button w3-padding "><i class="bi bi-triangle"></i>  Loại</a>
+            <a asp-action="Index" asp-controller="NhaCungCap" class="w3-bar-item w3-button w3-padding "><i class="bi bi-house-fill"></i>  Nhà cung cấp</a>
+
+         <hr />
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Đơn hàng mới</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  Lịch sử</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Cài đặt</a>
@@ -66,10 +70,10 @@
                                 <a asp-action="Create" asp-controller="Product" class="btn btn-primary">Thêm mới sản phẩm</a>
                             </p>
                             <p class="w3-right ms-lg-3">
-                                <a asp-action="Create" asp-controller="Product" class="btn btn-primary">Thêm mới loại</a>
+                                <a asp-action="Create" asp-controller="Loai" class="btn btn-primary">Thêm mới loại</a>
                             </p>
                             <p class="w3-right ms-lg-3">
-                                <a asp-action="Create" asp-controller="Product" class="btn btn-primary">Thêm mới nhà cung cấp</a>
+                                <a asp-action="Create" asp-controller="NhaCungCap" class="btn btn-primary">Thêm mới nhà cung cấp</a>
                             </p>
                             <p class="w3-right">
                                 <form asp-action="Search" asp-controller="Product">

@@ -318,9 +318,7 @@ public partial class HshopContext : DbContext
             entity.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(50);
-            entity.Property(e => e.Logo)
-                .IsRequired()
-                .HasMaxLength(50);
+            entity.Property(e => e.Logo).HasMaxLength(50);
             entity.Property(e => e.NguoiLienLac).HasMaxLength(50);
             entity.Property(e => e.TenCongTy)
                 .IsRequired()

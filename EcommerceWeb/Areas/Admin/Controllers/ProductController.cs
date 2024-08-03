@@ -157,7 +157,14 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             ViewBag.NhaCungCaps = new SelectList(_context.NhaCungCaps, "MaNcc", "TenCongTy");
             ViewBag.Loais = new SelectList(_context.Loais, "MaLoai", "TenLoai");
             var product = await _admin.GetById(id);
-            return View(product);
+            if (product == null)
+            {
+                return Redirect("/404");
+            }
+            else
+            {
+                return View(product);
+            }
         }
 
 

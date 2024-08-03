@@ -21,7 +21,9 @@
 </div>
 <!-- Modal -->
 <div class="container-fluid py-3">
+
     @await Html.PartialAsync("ProductItem", Model)
+
     <div class="col-12">
         <div class="pagination d-flex justify-content-center mt-5">
             @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
