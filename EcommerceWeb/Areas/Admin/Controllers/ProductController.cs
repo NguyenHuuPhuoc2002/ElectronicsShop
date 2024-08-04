@@ -59,10 +59,10 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 }
                 catch
                 {
-                    ModelState.AddModelError("", "Xóa sản phẩm không thành công !");
+                    ModelState.AddModelError("", $"Xóa sản phẩm \"{hangHoa.TenHh}\" không thành công !");
                 }
                 await _admin.DeleteAsync(id);
-                TempData["Message"] = "Xóa sản phẩm thành công !";
+                TempData["Message"] = $"Xóa sản phẩm \"{hangHoa.TenHh}\" thành công !";
             }
             return RedirectToAction("Index");
         }
@@ -113,7 +113,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 var product = await _admin.GetByName(hangHoa.TenHh);
                 if (product != null)
                 {
-                    ViewBag.Message = "Đã tồn tại sản phẩm này !";
+                    ViewBag.Message = "Đã tồn tại sản phẩm \"{hangHoa.TenHh}\" !";
                     ViewBag.NhaCungCaps = new SelectList(_context.NhaCungCaps, "MaNcc", "TenCongTy");
                     ViewBag.Loais = new SelectList(_context.Loais, "MaLoai", "TenLoai");
                     return View();
@@ -130,7 +130,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                     hangHoa.Hinh = imageName;
                 }
                 await _admin.AddAsync(hangHoa);
-                TempData["Message"] = "Thêm sản phẩm thành công !";
+                TempData["Message"] = $"Thêm sản phẩm \"{hangHoa.TenHh}\" thành công !";
                 return RedirectToAction("Index");
             }
             else
@@ -216,7 +216,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 existed_hangHoa.MaLoai = hangHoa.MaLoai;
                 existed_hangHoa.MaNcc = hangHoa.MaNcc;
                 await _admin.UpdateAsync(id, existed_hangHoa);
-                TempData["Message"] = "Chỉnh sửa thành công !";
+                TempData["Message"] = $"Chỉnh sửa sản phẩm có mã \"{id}\" thành công !";
                 return RedirectToAction("Index");
             }
             else

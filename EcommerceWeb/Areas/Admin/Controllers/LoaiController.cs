@@ -36,13 +36,13 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 var loai = await _loai.GetByNameAsync(model.TenLoai);
                 if(loai != null)
                 {
-                    ViewBag.Message = $"Đã tồn tại loại {model.TenLoai} !";
+                    ViewBag.Message = $"Đã tồn tại loại \"{model.TenLoai}\" !";
                     return View();
                 }
                 else
                 {
                     await _loai.AddAsync(model);
-                    TempData["Message"] = $"Thêm loại {model.TenLoai} thành công !";
+                    TempData["Message"] = $"Thêm loại \"{model.TenLoai}\" thành công !";
                     return RedirectToAction("Index");
                 }
             }
@@ -90,7 +90,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                     exist_loai.MoTa = model.MoTa;
                     await _loai.UpdateAsync(id, exist_loai);
                 }
-                TempData["Message"] = "Chỉnh sửa thành công !";
+                TempData["Message"] = $"Chỉnh sửa loại \"{model.TenLoai}\" thành công !";
                 return RedirectToAction("Index");
             }
             return View();

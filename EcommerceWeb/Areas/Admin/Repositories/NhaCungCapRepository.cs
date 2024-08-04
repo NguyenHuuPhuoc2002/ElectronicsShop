@@ -26,9 +26,14 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             }
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(string id)
         {
-            throw new NotImplementedException();
+            var nhaCungCap = await _context.NhaCungCaps.SingleOrDefaultAsync(p => p.MaNcc.Trim().ToLower() == id.Trim().ToLower());
+            if(nhaCungCap != null)
+            {
+                _context.Remove(nhaCungCap);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<NhaCungCapAdminModel>> GetAllAsync(int page, int pageSize)
@@ -55,9 +60,15 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             return _nhaCungCap;
         }
 
-        public Task UpdateAsync(int id, NhaCungCapAdminModel nhaCungCap)
+        public async Task UpdateAsync(string id, NhaCungCapAdminModel model)
         {
-            throw new NotImplementedException();
+            var nhaCungCap = await _context.NhaCungCaps.SingleOrDefaultAsync(p => p.MaNcc.Trim().ToLower() == id.Trim().ToLower());
+            if (nhaCungCap != null)
+            {
+                _mapper.Map(model, nhaCungCap);
+                _context.Update(nhaCungCap);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

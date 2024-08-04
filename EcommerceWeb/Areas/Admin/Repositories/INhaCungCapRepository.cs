@@ -4,8 +4,8 @@
     {
         Task<T> GetByIdAsync(string id);
         Task<IEnumerable<T>> GetAllAsync(int page, int pageSize);
-        Task DeleteAsync(int id);
-        Task UpdateAsync(int id, T nhaCungCap);
+        Task DeleteAsync(string id);
+        Task UpdateAsync(string id, T nhaCungCap);
         Task AddAsync(T nhaCungCaps);
     }
 }
