@@ -6,6 +6,7 @@ using EcommerceWeb.Repositories;
 using EcommerceWeb.Services;
 using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceWeb
@@ -34,6 +35,8 @@ namespace EcommerceWeb
             //Repository - Admin
             builder.Services.AddScoped<ILoaiRepository<LoaiAdminModel>, LoaiRepository>();
             builder.Services.AddScoped<INhaCungCapRepository<NhaCungCapAdminModel>, NhaCungCapRepository>();
+            builder.Services.AddScoped<INhanVienRepository<NhanVienAdminModel>, NhanVienRepository>();
+            builder.Services.AddScoped<ILoginRepository<NhanVien>, LoginRepository>();
 
             //session
             builder.Services.AddDistributedMemoryCache();
@@ -47,12 +50,30 @@ namespace EcommerceWeb
             //automapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            /* builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+             {
+                 options.LoginPath = "/KhachHang/DangNhap";
+                 options.AccessDeniedPath = "/AccessDenied";
+
+             });*/
+
+            //authen- author
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
             {
                 options.LoginPath = "/KhachHang/DangNhap";
                 options.AccessDeniedPath = "/AccessDenied";
-
+            })
+            .AddCookie("AdminScheme", options =>
+            {
+                options.LoginPath = "/Admin/Login/DangNhap";
+                options.AccessDeniedPath = "/AccessDenied";
             });
+            
 
             //đăng kí PaypalClient dạng SingleTon
             builder.Services.AddSingleton(x => new PaypalClient(

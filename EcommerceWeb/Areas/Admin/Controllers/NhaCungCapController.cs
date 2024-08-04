@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcommerceWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(AuthenticationSchemes = "AdminScheme")]
     public class NhaCungCapController : Controller
     {
         private readonly INhaCungCapRepository<NhaCungCapAdminModel> _nhaCungCap;

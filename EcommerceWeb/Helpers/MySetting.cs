@@ -3,6 +3,8 @@
     public class MySetting
     {
         public static string CART_KEY = "MYCART";
+        public static string ROLE_ADMIN = "Admin";
+        public static string ROLE_CUSTOMER = "Customer";
         public static string NAME_SORT_DESCENDING = "Giảm dần theo tên";
         public static string NAME_SORT_ASCENDING = "Tăng dần theo tên";
         public static string PRICE_SORT_DESCENDING = "Giảm dần theo giá";
@@ -16,6 +18,7 @@
         public static string SHIPPING_VNPAY = "Online";
         public static double SHIPPING_FEE = 30;
         public static string CLAIM_CUSTOMER_ID = "CustomerID";
+        public static string CLAIM_EMPLOYEE_ID = "EmployeeID";
     }
 
     public static class PaymentType

@@ -13,6 +13,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace EcommerceWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(AuthenticationSchemes = "AdminScheme")]
     public class ProductController : Controller
     {
         private readonly IHangHoaRepository<HangHoaVM> _hangHoa;

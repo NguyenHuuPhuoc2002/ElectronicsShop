@@ -84,7 +84,7 @@ namespace EcommerceWeb.Controllers
                 return RedirectToAction("Index", "HangHoa");
             }
            /* var hangHoas = await _context.SortAsync(sort, pageNumber, size);*/
-            ViewBag.CurrentFilter = sort;
+            ViewBag.CurrentFilterSort = sort;
             return View(hangHoas);
         }
     }

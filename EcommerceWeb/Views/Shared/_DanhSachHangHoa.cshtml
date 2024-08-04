@@ -20,13 +20,13 @@
                             <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
                                @*  <label for="sort">Sắp Xếp:</label> *@
                                 <select id="sort" name="sort" class="border-0 form-select-sm bg-light me-3">
-                                    @if(ViewBag.CurrentFilter == null)
+                                    @if(ViewBag.CurrentFilterSort == null)
                                     {
                                         <option value="Mặc định">Mặc định</option>
                                     }
                                     else
                                     {
-                                        <option>@ViewBag.CurrentFilter</option>
+                                        <option>@ViewBag.CurrentFilterSort</option>
                                     }
                                     <option value="Mặc định">Mặc định</option>
                                     <option value="Tăng dần theo tên">Tăng dần theo tên</option>

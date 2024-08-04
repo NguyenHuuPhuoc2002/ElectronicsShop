@@ -24,7 +24,7 @@ namespace EcommerceWeb.Repositories
         public async Task Register(KhachHang kh)
         {
             _context.Add(kh);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
     }

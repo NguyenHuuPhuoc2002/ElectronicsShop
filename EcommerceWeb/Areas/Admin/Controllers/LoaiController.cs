@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcommerceWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(AuthenticationSchemes = "AdminScheme")]
     public class LoaiController : Controller
     {
         private readonly ILoaiRepository<LoaiAdminModel> _loai;

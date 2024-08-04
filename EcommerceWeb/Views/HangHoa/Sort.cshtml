@@ -9,7 +9,7 @@
 
 <div class="col-12">
     <div class="pagination d-flex justify-content-center mt-5">
-        @Html.PagedListPager(Model, page => Url.Action("Sort", new { page, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions
+        @Html.PagedListPager(Model, page => Url.Action("Sort", new { page, currentFilter = ViewBag.CurrentFilterSort }), new PagedListRenderOptions
    {
        LiElementClasses = new[] { "page-item d-inline-block" },
        PageClasses = new[] { "page-link rounded" },
