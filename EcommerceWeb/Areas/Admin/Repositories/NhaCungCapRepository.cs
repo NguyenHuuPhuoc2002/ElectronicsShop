@@ -60,6 +60,27 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             return _nhaCungCap;
         }
 
+        public async Task<IEnumerable<NhaCungCapAdminModel>> GetSearch(string query, int page, int pageSize)
+        {
+            var nhaCungCaps = _context.NhaCungCaps.AsEnumerable();
+            if (!string.IsNullOrEmpty(query))
+            {
+                nhaCungCaps = _context.NhaCungCaps.Where(p => (p.MaNcc.Trim().ToLower().Contains(query.ToLower().Trim()))
+                                                        || (p.TenCongTy.Trim().ToLower().Contains(query.ToLower().Trim())));
+            }
+            var result = nhaCungCaps.Select(p => new NhaCungCapAdminModel
+            {
+                MaNcc = p.MaNcc,
+                TenCongTy = p.TenCongTy,
+                Email = p.Email,
+                DiaChi = p.DiaChi,
+                DienThoai = p.DienThoai,
+                MoTa = p.MoTa,
+                NguoiLienLac = p.NguoiLienLac,
+            });
+            return result.ToPagedList(page, pageSize);
+        }
+
         public async Task UpdateAsync(string id, NhaCungCapAdminModel model)
         {
             var nhaCungCap = await _context.NhaCungCaps.SingleOrDefaultAsync(p => p.MaNcc.Trim().ToLower() == id.Trim().ToLower());

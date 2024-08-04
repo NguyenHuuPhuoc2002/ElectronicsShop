@@ -63,6 +63,22 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             return _loai;
         }
 
+        public async Task<IEnumerable<LoaiAdminModel>> GetSearch(string query, int page, int pageSize)
+        {
+            var loais = _context.Loais.AsQueryable();
+            if (!string.IsNullOrEmpty(query))
+            {
+                loais =  _context.Loais.Where(p => p.TenLoai.Contains(query));
+            }
+            var result = loais.Select(p => new LoaiAdminModel
+            {
+                TenLoai = p.TenLoai,
+                MaLoai = p.MaLoai,
+                MoTa = p.MoTa,
+            });
+            return result.ToPagedList(page, pageSize);
+        }
+
         public async Task UpdateAsync(int id, LoaiAdminModel loai)
         {
             var _loai = await _context.Loais.SingleOrDefaultAsync(p => p.MaLoai == id);

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<EcommerceWeb.Areas.Admin.Models.LoaiAdminModel>
+<div class="text-center">
+    <form asp-action="Search" asp-controller="Loai">
+        <div class="mb-3 col-5" style="display: inline-flex">
+            <input type="text" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm loại...">
+            <button type="submit" class="btn btn-primary ms-lg-2"><i class="bi bi-search"></i></button>
+        </div>
+    </form>
+</div>
+<table class="table table-light text-start table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Mã loại</th>
+            <th scope="col">Tên loại</th>
+            <th scope="col">Mô tả</th>
+            <th scope="col">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <p class="mb-0 mt-4">@item.MaLoai</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@item.TenLoai</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@item.MoTa</p>
+                </td>
+                <!-- Modal -->
+                <div class="modal fade" id="delete_@item.MaLoai" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận xóa !</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-start">
+                                Bạn muốn xóa "@item.TenLoai" không?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Bỏ qua</button>
+                                <a asp-action="Delete" asp-controller="Loai" asp-route-id="@item.MaLoai" class="btn btn-primary text-white">
+                                    Đồng ý
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <td>
+                    <a asp-action="Edit" asp-controller="Loai" asp-route-id="@item.MaLoai" class="btn btn-md rounded-circle bg-light border mt-4">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="btn btn-md rounded-circle bg-light border mt-4" data-bs-toggle="modal" data-bs-target="#delete_@item.MaLoai">
+                        <i class="bi bi-trash text-danger"></i>
+                    </a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

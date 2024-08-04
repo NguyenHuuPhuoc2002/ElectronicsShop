@@ -8,5 +8,6 @@
         Task DeleteAsync(int id);
         Task UpdateAsync(int id, T loai);
         Task AddAsync(T loai);
+        Task<IEnumerable<T>> GetSearch(string? query, int page, int pageSize);
     }
 }

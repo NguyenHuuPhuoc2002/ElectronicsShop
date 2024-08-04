@@ -21,8 +21,8 @@
 </head>
 <body class="w3-light-grey">
 
-    <!-- Sidebar/menu -->
-    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:265px;" id="mySidebar">
+    <!-- Sidebar/menu           w3-animate-left -->
+    <nav class="w3-sidebar w3-collapse w3-white " style="z-index:3;width:265px;" id="mySidebar">
         <br>
         <div class="w3-container w3-row">
             <div class="w3-col s4">
@@ -45,7 +45,7 @@
             <a asp-action="Index" asp-controller="Loai" class="w3-bar-item w3-button w3-padding "><i class="bi bi-triangle"></i>  Loại</a>
             <a asp-action="Index" asp-controller="NhaCungCap" class="w3-bar-item w3-button w3-padding "><i class="bi bi-house-fill"></i>  Nhà cung cấp</a>
 
-         <hr />
+            <hr />
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Đơn hàng mới</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  Lịch sử</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Cài đặt</a>
@@ -60,9 +60,9 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col-10">
-               
+
                 <!-- header -->
-                <div class="container-fluid" >
+                <div class="container-fluid">
                     <!-- header -->
                     <header class="w3-container w3-xlarge w-100 h-auto">
                         <div class="mt-3">
@@ -75,14 +75,7 @@
                             <p class="w3-right ms-lg-3">
                                 <a asp-action="Create" asp-controller="NhaCungCap" class="btn btn-primary">Thêm mới nhà cung cấp</a>
                             </p>
-                            <p class="w3-right">
-                                <form asp-action="Search" asp-controller="Product">
-                                    <div class="mb-3 col-5" style="display: inline-flex">
-                                        <input type="text" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm sản phẩm...">
-                                        <button type="submit" class="btn btn-primary ms-lg-2"><i class="bi bi-search"></i></button>
-                                    </div>
-                                </form>
-                            </p>
+                            <h2>@ViewData["Title"]</h2>
                         </div>
                     </header>
                     @RenderBody()

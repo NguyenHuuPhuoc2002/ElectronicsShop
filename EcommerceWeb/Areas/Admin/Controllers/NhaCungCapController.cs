@@ -100,5 +100,31 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             TempData["Message"] = $"Xóa nhà cung cấp có mã \"{id}\" thành công !";
             return RedirectToAction("Index");
         }
+
+        [Authorize]
+        public async Task<IActionResult> Search(string currentFilter, string keyword, int page, int? pageSize)
+        {
+            IEnumerable<NhaCungCapAdminModel> nhaCungCaps;
+            int pSize = pageSize ?? 10;
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                page = 1;
+            }
+            else
+            {
+                keyword = currentFilter;
+            }
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                nhaCungCaps = await _nhaCungCap.GetSearch(keyword, page, pSize);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.CurrentFilter = keyword;
+            return View(nhaCungCaps);
+        }
     }
 }

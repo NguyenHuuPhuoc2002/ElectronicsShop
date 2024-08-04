@@ -1,7 +1,7 @@
 ﻿@using X.PagedList.Mvc.Core
 @model X.PagedList.IPagedList<EcommerceWeb.Areas.Admin.Models.NhaCungCapAdminModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách nhà cung cấp";
 }
 <!-- Modal -->
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -22,68 +22,7 @@
 <!-- Modal -->
 <div class="container-fluid py-3">
 
-    <table class="table table-light text-start table-bordered table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Mã nhà cung cấp</th>
-                <th scope="col">Tên công ty</th>
-                <th scope="col">Người liên lạc</th>
-                <th scope="col">Email</th>
-                <th scope="col">Điện thoại</th>
-                <th scope="col">Địa chỉ</th>
-                <th scope="col">Thao tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <p class="mb-0 mt-4">@item.MaNcc</p>
-                    </td>
-                    <td>
-                        <p class="mb-0 mt-4">@item.TenCongTy</p>
-                    </td>
-                    <td>
-                        <p class="mb-0 mt-4">@item.NguoiLienLac</p>
-                    </td>
-                    <td>
-                        <p class="mb-0 mt-4">@item.Email</p>
-                    </td>
-                    <td>
-                        <p class="mb-0 mt-4">@item.DienThoai</p>
-                    </td>
-                    <td>
-                        <p class="mb-0 mt-4">@item.DiaChi</p>
-                    </td>
-                    <!-- Modal -->
-                    <div class="modal fade" id="delete_@item.MaNcc" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận xóa !</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body text-start">
-                                    Bạn muốn xóa "@item.TenCongTy" không?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Bỏ qua</button>
-                                    <a asp-action="Delete" asp-controller="NhaCungCap" asp-route-id="@item.MaNcc" class="btn btn-primary text-white">
-                                        Đồng ý
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                    <td>
-                        <a asp-action="Edit" asp-controller="NhaCungCap" asp-route-id="@item.MaNcc" class="btn btn-md rounded-circle bg-light border mt-4">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <a class="btn btn-md rounded-circle bg-light border mt-4" data-bs-toggle="modal" data-bs-target="#delete_@item.MaNcc">
-                            <i class="bi bi-trash text-danger"></i>
-                        </a>
+    @await Html.PartialAsync("NhaCungCapItem", Model)
 
     <div class="col-12">
         <div class="pagination d-flex justify-content-center mt-5">

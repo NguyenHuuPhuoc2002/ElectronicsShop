@@ -1,10 +1,10 @@
 ﻿@using X.PagedList.Mvc.Core
-@model X.PagedList.IPagedList<EcommerceWeb.ViewModels.HangHoaVM>
+@model X.PagedList.IPagedList<EcommerceWeb.Areas.Admin.Models.LoaiAdminModel>
 @{
-    ViewData["Title"] = "Danh sách hàng hóa";
+    ViewData["Title"] = "Danh sách loại";
 }
 <div class="container-fluid py-3">
-    @await Html.PartialAsync("ProductItem", Model)
+    @await Html.PartialAsync("LoaiItem", Model)
 </div>
 
 <div class="col-12">

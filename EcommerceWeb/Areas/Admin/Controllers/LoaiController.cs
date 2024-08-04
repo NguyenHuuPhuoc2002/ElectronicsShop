@@ -1,6 +1,7 @@
 ﻿using EcommerceWeb.Areas.Admin.Models;
 using EcommerceWeb.Areas.Admin.Repositories;
 using EcommerceWeb.Data;
+using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -94,6 +95,32 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Search(string currentFilter, string keyword, int page, int? pageSize)
+        {
+            IEnumerable<LoaiAdminModel> loais;
+            int pSize = pageSize ?? 10;
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                page = 1;
+            }
+            else
+            {
+                keyword = currentFilter;
+            }
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                loais = await _loai.GetSearch(keyword, page, pSize);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.CurrentFilter = keyword;
+            return View(loais);
         }
     }
 }

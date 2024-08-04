@@ -1,7 +1,7 @@
 ﻿@using X.PagedList.Mvc.Core
 @model X.PagedList.IPagedList<EcommerceWeb.Areas.Admin.Models.LoaiAdminModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách loại";
 }
 <!-- Modal -->
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -21,66 +21,10 @@
 </div>
 <!-- Modal -->
 <div class="container-fluid py-3">
-
-    <table class="table table-light text-start table-bordered table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Mã loại</th>
-                <th scope="col">Tên loại</th>
-                <th scope="col">Mô tả</th>
-                <th scope="col">Thao tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <p class="mb-0 mt-4">@item.MaLoai</p>
-                    </td>
-                    <td>
-                        <p class="mb-0 mt-4">@item.TenLoai</p>
-                    </td>
-                    <td>
-                        <p class="mb-0 mt-4">@item.MoTa</p>
-                    </td>
-                    <!-- Modal -->
-                    <div class="modal fade" id="delete_@item.MaLoai" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận xóa !</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body text-start">
-                                    Bạn muốn xóa "@item.TenLoai" không?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Bỏ qua</button>
-                                    <a asp-action="Delete" asp-controller="Loai" asp-route-id="@item.MaLoai" class="btn btn-primary text-white">
-                                        Đồng ý
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                    <td >
-                        <a asp-action="Edit" asp-controller="Loai" asp-route-id="@item.MaLoai" class="btn btn-md rounded-circle bg-light border mt-4">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <a class="btn btn-md rounded-circle bg-light border mt-4" data-bs-toggle="modal" data-bs-target="#delete_@item.MaLoai">
-                            <i class="bi bi-trash text-danger"></i>
-                        </a>
-
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @await Html.PartialAsync("LoaiItem", Model)
     <div class="col-12">
         <div class="pagination d-flex justify-content-center mt-5">
-            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page}), new PagedListRenderOptions
        {
            LiElementClasses = new[] { "page-item d-inline-block" },
            PageClasses = new[] { "page-link rounded" },
