@@ -37,6 +37,8 @@ namespace EcommerceWeb
             builder.Services.AddScoped<INhaCungCapRepository<NhaCungCapAdminModel>, NhaCungCapRepository>();
             builder.Services.AddScoped<INhanVienRepository<NhanVienAdminModel>, NhanVienRepository>();
             builder.Services.AddScoped<ILoginRepository<NhanVien>, LoginRepository>();
+            builder.Services.AddScoped<INhanVienRepository<NhanVienAdminModel>, NhanVienRepository>();
+            builder.Services.AddScoped<IDonHangRepository<HoaDonVM>, DonHangRepository>();
 
             //session
             builder.Services.AddDistributedMemoryCache();

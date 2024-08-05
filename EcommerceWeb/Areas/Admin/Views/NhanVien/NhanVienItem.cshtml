@@ -1,6 +1,6 @@
-﻿@model IEnumerable<EcommerceWeb.Areas.Admin.Models.NhaCungCapAdminModel>
+﻿@model IEnumerable<EcommerceWeb.Areas.Admin.Models.NhanVienAdminModel>
 <div class="text-center">
-    <form asp-action="Search" asp-controller="NhaCungCap">
+    <form asp-action="Search" asp-controller="NhanVien">
         <div class="mb-3 col-5" style="display: inline-flex">
             <input type="text" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm nhà cung cấp...">
             <button type="submit" class="btn btn-primary ms-lg-2"><i class="bi bi-search"></i></button>
@@ -10,12 +10,13 @@
 <table class="table table-light text-start table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">Mã nhà cung cấp</th>
-            <th scope="col">Tên công ty</th>
-            <th scope="col">Người liên lạc</th>
+            <th scope="col">Mã nhân viên</th>
+            <th scope="col">Tên nhân viên</th>
             <th scope="col">Email</th>
-            <th scope="col">Điện thoại</th>
-            <th scope="col">Địa chỉ</th>
+            <th scope="col">Xem</th>
+            <th scope="col">Sửa</th>
+            <th scope="col">Xóa</th>
+            <th scope="col">Thêm</th>
             <th scope="col">Thao tác</th>
         </tr>
     </thead>
@@ -24,25 +25,28 @@
         {
             <tr>
                 <td>
-                    <p class="mb-0 mt-4">@item.MaNcc</p>
+                    <p class="mb-0 mt-4">@item.MaNv</p>
                 </td>
                 <td>
-                    <p class="mb-0 mt-4">@item.TenCongTy</p>
-                </td>
-                <td>
-                    <p class="mb-0 mt-4">@item.NguoiLienLac</p>
+                    <p class="mb-0 mt-4">@item.HoTen</p>
                 </td>
                 <td>
                     <p class="mb-0 mt-4">@item.Email</p>
                 </td>
                 <td>
-                    <p class="mb-0 mt-4">@item.DienThoai</p>
+                    <p class="mb-0 mt-4">@item.Xem</p>
                 </td>
                 <td>
-                    <p class="mb-0 mt-4">@item.DiaChi</p>
+                    <p class="mb-0 mt-4">@item.Sua</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@item.Xoa</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@item.Them</p>
                 </td>
                 <!-- Modal -->
-                <div class="modal fade" id="delete_@item.MaNcc" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="delete_@item.MaNv" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -50,11 +54,11 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body text-start">
-                                Bạn muốn xóa "@item.TenCongTy" không?
+                                Bạn muốn xóa "@item.HoTen" không?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Bỏ qua</button>
-                                <a asp-action="Delete" asp-controller="NhaCungCap" asp-route-id="@item.MaNcc" class="btn btn-primary text-white">
+                                <a asp-action="Delete" asp-controller="NhaCungCap" asp-route-id="@item.MaNv" class="btn btn-primary text-white">
                                     Đồng ý
                                 </a>
                             </div>
@@ -63,11 +67,11 @@
                 </div>
                 <!-- Modal -->
                 <td>
-                    <a asp-action="Edit" asp-controller="NhaCungCap" asp-route-id="@item.MaNcc" class="btn btn-success mt-4">
+                    <a asp-action="Edit" asp-controller="NhaCungCap" asp-route-id="@item.MaNv" class="btn btn-md rounded-circle bg-light border mt-4">
                         <i class="bi bi-pencil-square"></i>
                     </a>
-                    <a class="btn btn-danger mt-4" data-bs-toggle="modal" data-bs-target="#delete_@item.MaNcc">
-                        <i class="bi bi-trash text-white"></i>
+                    <a class="btn btn-md rounded-circle bg-light border mt-4" data-bs-toggle="modal" data-bs-target="#delete_@item.MaNv">
+                        <i class="bi bi-trash text-danger"></i>
                     </a>
 
                 </td>

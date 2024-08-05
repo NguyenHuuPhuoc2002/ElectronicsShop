@@ -50,10 +50,11 @@
             <a asp-action="Index" asp-controller="Product" class="w3-bar-item w3-button w3-padding w3-blue"><i class="bi bi-bag-fill"></i>  Hàng hóa</a>
             <a asp-action="Index" asp-controller="Loai" class="w3-bar-item w3-button w3-padding "><i class="bi bi-triangle"></i>  Loại</a>
             <a asp-action="Index" asp-controller="NhaCungCap" class="w3-bar-item w3-button w3-padding "><i class="bi bi-house-fill"></i>  Nhà cung cấp</a>
+            <a asp-action="Index" asp-controller="NhanVien" class="w3-bar-item w3-button w3-padding "><i class="bi bi-people"></i></i>  Nhân viên</a>
 
             <hr />
-            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Đơn hàng mới</a>
-            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  Lịch sử</a>
+            <a asp-action="Index" asp-controller="DonHang" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Đơn hàng mới</a>
+            <a asp-action="LichSu" asp-controller="DonHang" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  Lịch sử đơn hàng</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Cài đặt</a>
             @if (User.Identity.IsAuthenticated)
             {

@@ -2,6 +2,7 @@
 using EcommerceWeb.Areas.Admin.Models;
 using EcommerceWeb.Data;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList.EF;
 using X.PagedList.Extensions;
 
 namespace EcommerceWeb.Areas.Admin.Repositories
@@ -26,17 +27,37 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<NhanVienAdminModel>> GetAllAsync(int page, int pageSize)
+        public async Task<IEnumerable<NhanVienAdminModel>> GetAllAsync(string email, int page, int pageSize)
         {
-            var nhanViens = await _context.NhanViens.Select(p => new NhanVienAdminModel
+            var nhanViens = await (from nv in _context.NhanViens
+                                   join pc in _context.PhanCongs on nv.MaNv equals pc.MaNv
+                                   join pb in _context.PhongBans on pc.MaPb equals pb.MaPb
+                                   join pq in _context.PhanQuyens on pb.MaPb equals pq.MaPb
+                                   where nv.Email == email
+                                   select new NhanVienAdminModel
+                                   {
+                                       MaNv = nv.MaNv,
+                                       HoTen = nv.HoTen,
+                                       Email = nv.Email,
+                                       MatKhau = nv.MatKhau,
+                                       Xem = pq.Xem,
+                                       Sua = pq.Sua,
+                                       Xoa = pq.Xoa,
+                                       Them = pq.Them,
+                                   }).ToListAsync();
+            var distinctNhanViens = nhanViens
+    .GroupBy(nv => nv.MaNv)
+    .Select(g => g.First())
+    .ToList();
+            /*var nhanViens = await _context.NhanViens.Select(p => new NhanVienAdminModel
             {
                 MaNv = p.MaNv,
                 HoTen = p.HoTen,
                 Email = p.Email,
                 MatKhau = p.MatKhau
-            }).ToListAsync();
+            }).ToListAsync();*/
 
-            return nhanViens.ToPagedList(page, pageSize);
+            return distinctNhanViens.ToPagedList(page, pageSize);
         }
 
         public Task<NhanVienAdminModel> GetByIdAsync(int id)

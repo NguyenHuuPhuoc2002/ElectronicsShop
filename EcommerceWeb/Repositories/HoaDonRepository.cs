@@ -19,7 +19,8 @@ namespace EcommerceWeb.Repositories
 
         public async Task<IEnumerable<HoaDonVM>> GetAllByIdAsync(string id, int page, int pageSize)
         {
-            var listHoaDon = await (from hd in _context.HoaDons
+            var data = _context.HoaDons.OrderByDescending(p => p.NgayDat).AsQueryable();
+            var listHoaDon = await (from hd in data
                                     join tt in _context.TrangThais on hd.MaTrangThai equals tt.MaTrangThai
                                     where hd.MaKh == id
                                     select new HoaDonVM
