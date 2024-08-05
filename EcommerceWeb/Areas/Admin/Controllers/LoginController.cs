@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace EcommerceWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+
     public class LoginController : Controller
     {
         private readonly ILoginRepository<NhanVien> _nhanVien;
@@ -34,7 +35,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 var nhanVien = await _nhanVien.GetNhanVienAsync(model);
                 if (nhanVien == null)
                 {
-                    ModelState.AddModelError("loi", "Không có nhân viên này");
+                    ModelState.AddModelError("loi", "Tài khoản Không tồn tại !");
                 }
                 else
                 {
@@ -66,7 +67,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("/");
+                            return RedirectToAction("Index", "Product");
                         }
                     }
                 }
@@ -75,11 +76,11 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         }
         #endregion
         #region LogOut
-        [Authorize]
+  
         public async Task<IActionResult> DangXuat()
         {
             await HttpContext.SignOutAsync("AdminScheme");
-            return Redirect("/");
+            return RedirectToAction("DangNhap");
         }
         #endregion
     }
