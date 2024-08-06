@@ -31,7 +31,6 @@
                 <th scope="col" class="text-center">Điện thoại</th>
                 <th scope="col" class="text-center">Cách thanh toán</th>
                 <th scope="col" class="text-center">Thao tác</th>
-                <th scope="col" class="text-center"></th>
             </tr>
         </thead>
         <tbody>
@@ -56,9 +55,6 @@
                     </td>
                     <td>
                         <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.CachThanhToan)</p>
-                    </td>
-                    <td>
-                        <a asp-action="ChiTietDonHang" class="text-decoration-none"><p class="text-primary mt-4 text-center text-decoration-none">Xem chi tiết</p></a>
                     </td>
                     <!-- Modal -->
                     <div class="modal fade" id="delete_@item.MaHd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
