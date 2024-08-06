@@ -26,6 +26,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         {
             int _page = page ?? 1;
             int _pageSize = pageSize ?? 10;
+
             var oders = await _donHang.GetOderConfirmAsync(_page, _pageSize);
             return View(oders);
         }

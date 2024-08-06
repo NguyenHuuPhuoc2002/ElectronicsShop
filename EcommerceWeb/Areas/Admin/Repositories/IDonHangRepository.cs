@@ -1,4 +1,7 @@
-﻿namespace EcommerceWeb.Areas.Admin.Repositories
+﻿using EcommerceWeb.ViewModels;
+using Microsoft.EntityFrameworkCore;
+
+namespace EcommerceWeb.Areas.Admin.Repositories
 {
     public interface IDonHangRepository<T>
     {
