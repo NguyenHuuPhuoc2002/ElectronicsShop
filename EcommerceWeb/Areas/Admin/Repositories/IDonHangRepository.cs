@@ -6,5 +6,6 @@
         Task<T> GetOderByIdAsync(int id);
         Task<IEnumerable<T>> GetOderConfirmAsync(int page, int pageSize);
         Task UpdateStateAsync(int id, int state);
+        Task<IEnumerable<T>> GetSearchAsync(string keyWord, int page, int pageSize);
     }
 }

@@ -1,0 +1,63 @@
+﻿﻿@using EcommerceWeb.ViewModels
+@model ChiTietHoaDonViewModel
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+}
+
+<div class="container-fluid py-5">
+    <h4 class="text-center mb-5">Mã hóa đơn: @ViewBag.MaHD</h4>
+    <table class="table table-light text-start table-bordered table-hover">
+        <thead>
+            <tr>
+                @*  <th scope="col">Mã hóa đơn</th> *@
+                <th scope="col" class="text-center">Ảnh</th>
+                <th scope="col" class="text-center">Tên sản phẩm</th>
+                <th scope="col" class="text-center">Giá</th>
+                <th scope="col" class="text-center">Số lượng</th>
+                <th scope="col" class="text-center">Giảm giá</th>
+                <th scope="col" class="text-center">Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.chiTietHangHoaVMs)
+            {
+                <tr>
+                    @*  <td>
+                <p class="mb-0 mt-4"> @Html.DisplayFor(modelItem => item.MaHD)</p>
+                </td> *@
+                    <th scope="row">
+                        <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
+                            <img src="~/Hinh/HangHoa/@item.Anh" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="@item.TenHH">
+                        </div>
+                    </th>
+                    <td>
+                        <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.TenHH)</p>
+                    </td>
+                    <td>
+                        <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.DonGia) $</p>
+                    </td>
+                    <td>
+                        <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.SoLuong)</p>
+                    </td>
+                    <td>
+                        <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.GiamGia)</p>
+                    </td>
+                    <td>
+                        <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.ThanhTien) $</p>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    <div class="py-3 text-end">
+        <p class="mb-0 text-dark text-capitalize mb-3">Phí vận chuyển: 30 $</p>
+        <p class="mb-0 text-danger text-capitalize">Tổng tiền: @Model.TongTien.ToString("#,##0") $</p>
+    </div>
+
+    <div class="text-center">
+        <a asp-action="Index">Quay lại</a>
+    </div>
+</div>
+
+

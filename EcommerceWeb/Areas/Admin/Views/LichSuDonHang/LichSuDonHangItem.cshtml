@@ -1,0 +1,64 @@
+﻿@model IEnumerable<EcommerceWeb.ViewModels.HoaDonVM>
+<div class="text-center">
+    <form asp-action="Search">
+        <div class="mb-3 col-5" style="display: inline-flex">
+            <input type="search" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm...">
+            <button type="submit" class="btn btn-primary ms-lg-2"><i class="bi bi-search"></i></button>
+        </div>
+    </form>
+</div>
+<table class="table table-light text-start table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Mã hóa đơn</th>
+            <th scope="col" class="text-center">Họ tên</th>
+            <th scope="col" class="text-center">Ngày đặt</th>
+            <th scope="col" class="text-center">Địa chỉ</th>
+            <th scope="col" class="text-center">Điện thoại</th>
+            <th scope="col" class="text-center">Cách thanh toán</th>
+            <th scope="col" class="text-center">Trạng thái</th>
+            <th scope="col" class="text-center">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.MaHd)</p>
+                </td>
+
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.HoTen)</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.NgayDat) </p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.DiaChi)</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.DienThoai)</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.CachThanhToan)</p>
+                </td>
+                <td>
+                    @if (item.MaTrangThai != -1)
+                    {
+                        <p class="mb-0 mt-4 text-centeratio text-success"> @Html.DisplayFor(modelItem => item.TrangThai)</p>
+                    }
+                    else
+                    {
+                        <p class="mb-0 mt-4 text-center text-danger"> @Html.DisplayFor(modelItem => item.TrangThai)</p>
+                    }
+                </td>
+                <td>
+                    <a asp-action="ChiTietDonHang" asp-route-id="@item.MaHd" class="text-decoration-none"><p class="text-primary mt-4 text-center text-decoration-none">Xem chi tiết</p></a>
+                </td>
+
+            </tr>
+
+        }
+    </tbody>
+</table>

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<EcommerceWeb.ViewModels.HoaDonVM>
+<div class="text-center">
+    <form asp-action="Search" asp-controller="DonHang">
+        <div class="mb-3 col-5" style="display: inline-flex">
+            <input type="search" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm...">
+            <button type="submit" class="btn btn-primary ms-lg-2"><i class="bi bi-search"></i></button>
+        </div>
+    </form>
+</div>
+<table class="table table-light text-start table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Mã hóa đơn</th>
+            <th scope="col" class="text-center">Họ tên</th>
+            <th scope="col" class="text-center">Ngày đặt</th>
+            <th scope="col" class="text-center">Địa chỉ</th>
+            <th scope="col" class="text-center">Điện thoại</th>
+            <th scope="col" class="text-center">Cách thanh toán</th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.MaHd)</p>
+                </td>
+
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.HoTen)</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.NgayDat) </p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.DiaChi)</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.DienThoai)</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.CachThanhToan)</p>
+                </td>
+                <!-- Modal -->
+                <div class="modal fade" id="delete_@item.MaHd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận xóa !</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-start">
+                                Bạn muốn hủy đơn của "@item.HoTen" và mã hóa đơn "@item.MaHd" không?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Bỏ qua</button>
+                                <a asp-action="HuyDonHang" asp-route-id="@item.MaHd" class="btn btn-primary text-white">
+                                    Đồng ý
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <td>
+                    <a asp-action="ChiTietDonHang" asp-route-id="@item.MaHd" class="text-decoration-none"><p class="text-primary mt-4 text-center text-decoration-none">Xem chi tiết</p></a>
+                </td>
+                <td>
+                    <a asp-action="XacNhan" asp-route-id="@item.MaHd" class="btn btn-success mb-0 mt-2 text-end"> <i class="bi bi-check-lg"></i></a>
+                    <a class="btn btn-danger mb-0 mt-2 text-end" data-bs-toggle="modal" data-bs-target="#delete_@item.MaHd"><i class="bi bi-trash text-white"></i></a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>

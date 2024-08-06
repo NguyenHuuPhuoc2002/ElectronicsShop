@@ -1,4 +1,8 @@
-﻿using EcommerceWeb.Areas.Admin.Repositories;
+﻿using EcommerceWeb.Areas.Admin.Models;
+using EcommerceWeb.Areas.Admin.Repositories;
+using EcommerceWeb.Data;
+using EcommerceWeb.Helpers;
+using EcommerceWeb.Repositories;
 using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +14,12 @@ namespace EcommerceWeb.Areas.Admin.Controllers
     public class DonHangController : Controller
     {
         private readonly IDonHangRepository<HoaDonVM> _donHang;
+        private readonly IChiTietHoaDonRepository<ChiTietHoaDonVM> _chiTiet;
 
-        public DonHangController(IDonHangRepository<HoaDonVM> donHang)
+        public DonHangController(IDonHangRepository<HoaDonVM> donHang, IChiTietHoaDonRepository<ChiTietHoaDonVM> chiTiet)
         {
             _donHang = donHang;
+            _chiTiet = chiTiet;
         }
         [Authorize]
         public async Task<IActionResult> Index(int? page, int? pageSize)
@@ -35,14 +41,6 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
         [Authorize]
-        public async Task<IActionResult> LichSu(int? page, int? pageSize)
-        {
-            int _page = page ?? 1;
-            int _pageSize = pageSize ?? 10;
-            var _donHangs = await _donHang.GetAllAsync(_page, _pageSize);
-            return View(_donHangs);
-        }
-        [Authorize]
         public async Task<IActionResult> HuyDonHang(int id)
         {
             int state = -1;
@@ -52,6 +50,46 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             }
             await _donHang.UpdateStateAsync(id, state);
             return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> ChiTietDonHang(int id)
+        {
+            var cTHoaDons = await _chiTiet.GetOderDetailByIdAsync(id);
+            var cTHoaDonsVM = new ChiTietHoaDonViewModel
+            {
+                chiTietHangHoaVMs = cTHoaDons,
+                TongTien = (cTHoaDons.Sum(p => Convert.ToDouble(p.ThanhTien)) + MySetting.SHIPPING_FEE),
+
+            };
+            ViewBag.MaHD = id;
+            return View(cTHoaDonsVM);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Search(string currentFilter, string keyword, int page, int? pageSize)
+        {
+            IEnumerable<HoaDonVM> hoaDons;
+            int pSize = pageSize ?? 10;
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                page = 1;
+            }
+            else
+            {
+                keyword = currentFilter;
+            }
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                hoaDons = await _donHang.GetSearchAsync(keyword, page, pSize);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.CurrentFilter = keyword;
+            return View(hoaDons);
         }
     }
 }

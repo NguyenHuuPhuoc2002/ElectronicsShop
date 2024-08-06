@@ -99,5 +99,34 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             _context.HoaDons.Update(data);
             _context.SaveChanges();
         }
+
+        public async Task<IEnumerable<HoaDonVM>> GetSearchAsync(string keyWord, int page, int pageSize)
+        {
+            var data = _context.HoaDons.OrderByDescending(p => p.NgayDat).AsQueryable();
+            var listHoaDon = await (from hd in data
+                                    join tt in _context.TrangThais on hd.MaTrangThai equals tt.MaTrangThai
+                                    where (hd.HoTen.ToLower().Contains(keyWord.ToLower().Trim()) || hd.DiaChi.ToLower().Contains(keyWord.ToLower().Trim()) 
+                                            || hd.CachThanhToan.ToLower().Contains(keyWord.Trim()) || hd.DienThoai.Contains(keyWord.Trim()))
+                                            && (hd.MaTrangThai == 0)
+                                    select new HoaDonVM
+                                    {
+                                        MaNv = hd.MaNv,
+                                        MaKh = hd.MaKh,
+                                        NgayDat = hd.NgayDat,
+                                        NgayGiao = hd.NgayDat.AddDays(3),
+                                        HoTen = hd.HoTen,
+                                        DiaChi = hd.DiaChi,
+                                        DienThoai = hd.DienThoai,
+                                        CachThanhToan = hd.CachThanhToan,
+                                        PhiVanChuyen = hd.PhiVanChuyen,
+                                        TrangThai = tt.TenTrangThai,
+                                        MaTrangThai = hd.MaTrangThai,
+                                        MaHd = hd.MaHd,
+                                        GhiChu = hd.GhiChu
+                                    })
+                           .ToPagedListAsync(page, pageSize);
+
+            return listHoaDon;
+        }
     }
 }

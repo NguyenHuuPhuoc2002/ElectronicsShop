@@ -66,6 +66,7 @@ namespace EcommerceWeb.Repositories
             return hoaDon;
         }
 
+
         public async Task UpdateStateAsync(int id)
         {
             var data = await _context.HoaDons.SingleOrDefaultAsync(p => p.MaHd == id);

@@ -54,7 +54,7 @@
 
             <hr />
             <a asp-action="Index" asp-controller="DonHang" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Đơn hàng mới</a>
-            <a asp-action="LichSu" asp-controller="DonHang" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  Lịch sử đơn hàng</a>
+            <a asp-action="Index" asp-controller="LichSuDonHang" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  Lịch sử đơn hàng</a>
             <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Cài đặt</a>
             @if (User.Identity.IsAuthenticated)
             {

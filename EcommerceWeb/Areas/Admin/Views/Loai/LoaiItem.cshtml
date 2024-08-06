@@ -2,7 +2,7 @@
 <div class="text-center">
     <form asp-action="Search" asp-controller="Loai">
         <div class="mb-3 col-5" style="display: inline-flex">
-            <input type="text" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm loại...">
+            <input type="search" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm loại...">
             <button type="submit" class="btn btn-primary ms-lg-2"><i class="bi bi-search"></i></button>
         </div>
     </form>
