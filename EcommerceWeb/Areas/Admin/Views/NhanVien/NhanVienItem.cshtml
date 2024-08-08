@@ -2,7 +2,7 @@
 <div class="text-center">
     <form asp-action="Search" asp-controller="NhanVien">
         <div class="mb-3 col-5" style="display: inline-flex">
-            <input type="text" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm nhà cung cấp...">
+            <input type="search" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm...">
             <button type="submit" class="btn btn-primary ms-lg-2"><i class="bi bi-search"></i></button>
         </div>
     </form>
@@ -13,6 +13,8 @@
             <th scope="col">Mã nhân viên</th>
             <th scope="col">Tên nhân viên</th>
             <th scope="col">Email</th>
+            <th scope="col">Mật khẩu</th>
+            <th scope="col">Role</th>
             <th scope="col">Thao tác</th>
         </tr>
     </thead>
@@ -29,6 +31,12 @@
                 <td>
                     <p class="mb-0 mt-4">@item.Email</p>
                 </td>
+                <td>
+                    <p class="mb-0 mt-4">@item.MatKhau</p>
+                </td>
+                <td>
+                    
+                </td>
                 <!-- Modal -->
                 <div class="modal fade" id="delete_@item.MaNv" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -42,7 +50,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Bỏ qua</button>
-                                <a asp-action="Delete" asp-controller="NhaCungCap" asp-route-id="@item.MaNv" class="btn btn-primary text-white">
+                                <a asp-action="Delete" asp-controller="NhanVien" asp-route-id="@item.MaNv" class="btn btn-primary text-white">
                                     Đồng ý
                                 </a>
                             </div>
@@ -51,11 +59,11 @@
                 </div>
                 <!-- Modal -->
                 <td>
-                    <a asp-action="Edit" asp-controller="NhaCungCap" asp-route-id="@item.MaNv" class="btn btn-md rounded-circle bg-light border mt-4">
+                    <a asp-action="Edit" asp-controller="NhanVien" asp-route-id="@item.MaNv" class="btn btn btn-success mt-4">
                         <i class="bi bi-pencil-square"></i>
                     </a>
-                    <a class="btn btn-md rounded-circle bg-light border mt-4" data-bs-toggle="modal" data-bs-target="#delete_@item.MaNv">
-                        <i class="bi bi-trash text-danger"></i>
+                    <a class="btn btn-danger  mt-4" data-bs-toggle="modal" data-bs-target="#delete_@item.MaNv">
+                        <i class="bi bi-trash text-white"></i>
                     </a>
 
                 </td>

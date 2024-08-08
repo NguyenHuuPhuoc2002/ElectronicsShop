@@ -1,4 +1,5 @@
 ﻿using EcommerceWeb.Helpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,9 +19,6 @@ namespace EcommerceWeb.Areas.Admin.Models
         [Display(Name = "Mật khẩu")]
         [Required(ErrorMessage = "*")]
         public string MatKhau {  get; set; }
-        public bool Xem {  get; set; }
-        public bool Sua {  get; set; }
-        public bool Xoa {  get; set; }
-        public bool Them {  get; set; }
+       
     }
 }

@@ -17,48 +17,75 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public Task AddAsync(NhanVienAdminModel nhanVien)
+        public async Task AddAsync(NhanVienAdminModel nhanVien)
         {
-            throw new NotImplementedException();
+            if (nhanVien != null)
+            {
+                var _nhanVien = _mapper.Map<NhanVien>(nhanVien);
+                await _context.NhanViens.AddAsync(_nhanVien);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(string id)
         {
-            throw new NotImplementedException();
+            var _nhanVien = await _context.NhanViens.FirstOrDefaultAsync(p => p.MaNv.ToLower() == id.ToLower());
+            if (_nhanVien != null)
+            {
+                _context.Remove(_nhanVien);
+                _context.SaveChanges();
+            }
         }
 
         public async Task<IEnumerable<NhanVienAdminModel>> GetAllAsync(string email, int page, int pageSize)
         {
-            var nhanViens = await (from nv in _context.NhanViens
-                                   join pc in _context.PhanCongs on nv.MaNv equals pc.MaNv
-                                   join pb in _context.PhongBans on pc.MaPb equals pb.MaPb
-                                   join pq in _context.PhanQuyens on pb.MaPb equals pq.MaPb
-                                   where nv.Email == email
-                                   select new NhanVienAdminModel
-                                   {
+
+            var nhanViens = await _context.NhanViens.Select(p => new NhanVienAdminModel
+            {
                 MaNv = p.MaNv,
                 HoTen = p.HoTen,
                 Email = p.Email,
                 MatKhau = p.MatKhau
-            }).ToListAsync();*/
+            }).ToListAsync();
 
-            return distinctNhanViens.ToPagedList(page, pageSize);
+            return nhanViens.ToPagedList(page, pageSize);
         }
 
-        public Task<NhanVienAdminModel> GetByIdAsync(int id)
+        public async Task<NhanVienAdminModel> GetByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            var _nhanvien = await _context.NhanViens.FirstOrDefaultAsync(p => p.Email.ToLower() == email.ToLower().Trim());
+            var result = _mapper.Map<NhanVienAdminModel>(_nhanvien);
+            return result;
+        }
+
+        public async Task<NhanVienAdminModel> GetByIdAsync(string id)
+        {
+            var _nhanvien = await _context.NhanViens.FirstOrDefaultAsync(p => p.MaNv.ToLower() == id.ToLower().Trim());
+            var result = _mapper.Map<NhanVienAdminModel>(_nhanvien);
+            return result;
         }
 
 
-        public Task<IEnumerable<NhanVienAdminModel>> GetSearch(string query, int page, int pageSize)
+        public async Task<IEnumerable<NhanVienAdminModel>> GetSearch(string query, int page, int pageSize)
         {
-            throw new NotImplementedException();
+            var nhanViens = await _context.NhanViens.Where(p => p.HoTen.ToLower().Contains(query.ToLower().Trim())
+                                                || p.MaNv.ToLower().Contains(query.ToLower().Trim())).ToListAsync();
+            var result = nhanViens.Select(p => new NhanVienAdminModel
+            {
+                MaNv = p.MaNv,
+                HoTen = p.HoTen,
+                Email = p.Email,
+                MatKhau = p.MatKhau,
+            });
+            return result.ToPagedList(page, pageSize);
         }
 
-        public Task UpdateAsync(int id, NhanVienAdminModel nhanVien)
+        public async Task UpdateAsync(string id, NhanVienAdminModel nhanVien)
         {
-            throw new NotImplementedException();
+            var _nhanVien = await _context.NhanViens.FirstOrDefaultAsync(p => p.MaNv.ToLower() == id.ToLower().Trim());
+            _mapper.Map(nhanVien, _nhanVien);
+            _context.Update(_nhanVien);
+            _context.SaveChanges();
         }
     }
 }

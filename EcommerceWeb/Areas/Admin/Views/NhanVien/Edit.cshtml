@@ -1,0 +1,42 @@
+﻿@model EcommerceWeb.Areas.Admin.Models.NhanVienAdminModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa nhân viên";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MaNv" value="@Model.MaNv" />
+            <div class="form-group">
+                <label asp-for="MaNv" class="control-label"></label>
+                <input asp-for="MaNv" readonly class="form-control" value="@Model.MaNv" />
+                <span asp-validation-for="MaNv" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoTen" class="control-label"></label>
+                <input asp-for="HoTen" class="form-control" value="@Model.HoTen" />
+                <span asp-validation-for="HoTen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" readonly class="form-control" value="@Model.Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MatKhau" class="control-label"></label>
+                <input asp-for="MatKhau" class="form-control" value="@Model.MatKhau" />
+                <span asp-validation-for="MatKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Chỉnh Sửa" class="btn btn-primary w-100 text-uppercase mt-2" />
+            </div>
+        </form>
+        <div class="mt-3 text-center mb-5">
+            <a asp-action="Index">Quay lại</a>
+        </div>
+    </div>
+</div>
+
