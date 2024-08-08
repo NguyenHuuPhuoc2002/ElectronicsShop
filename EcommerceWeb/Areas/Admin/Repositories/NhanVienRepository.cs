@@ -36,21 +36,6 @@ namespace EcommerceWeb.Areas.Admin.Repositories
                                    where nv.Email == email
                                    select new NhanVienAdminModel
                                    {
-                                       MaNv = nv.MaNv,
-                                       HoTen = nv.HoTen,
-                                       Email = nv.Email,
-                                       MatKhau = nv.MatKhau,
-                                       Xem = pq.Xem,
-                                       Sua = pq.Sua,
-                                       Xoa = pq.Xoa,
-                                       Them = pq.Them,
-                                   }).ToListAsync();
-            var distinctNhanViens = nhanViens
-    .GroupBy(nv => nv.MaNv)
-    .Select(g => g.First())
-    .ToList();
-            /*var nhanViens = await _context.NhanViens.Select(p => new NhanVienAdminModel
-            {
                 MaNv = p.MaNv,
                 HoTen = p.HoTen,
                 Email = p.Email,
