@@ -23,7 +23,6 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index(int? page, int? pageSize)
         {
-            var _email = User.FindFirst(ClaimTypes.Email)?.Value;
             int _page = page ?? 1;
             int _pageSize = pageSize ?? 10;
             var data = await _nhanVien.GetAllAsync(_email, _page, _pageSize);
