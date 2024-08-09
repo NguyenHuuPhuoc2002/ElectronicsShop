@@ -39,6 +39,8 @@ namespace EcommerceWeb
             builder.Services.AddScoped<ILoginRepository<NhanVien>, LoginRepository>();
             builder.Services.AddScoped<INhanVienRepository<NhanVienAdminModel>, NhanVienRepository>();
             builder.Services.AddScoped<IDonHangRepository<HoaDonVM>, DonHangRepository>();
+            builder.Services.AddScoped<IPhongBanRepository<PhongBanModel>, PhongBanRepository>();
+            builder.Services.AddScoped<IPhanCongRepository<PhanCongModel>, PhanCongRepository>();
 
             //session
             builder.Services.AddDistributedMemoryCache();
@@ -59,7 +61,7 @@ namespace EcommerceWeb
 
              });*/
 
-            //authen- author
+            //Authentication
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -75,7 +77,9 @@ namespace EcommerceWeb
                 options.LoginPath = "/Admin/Login/DangNhap";
                 options.AccessDeniedPath = "/AccessDenied";
             });
-            
+
+            // Authorization
+
 
             //đăng kí PaypalClient dạng SingleTon
             builder.Services.AddSingleton(x => new PaypalClient(

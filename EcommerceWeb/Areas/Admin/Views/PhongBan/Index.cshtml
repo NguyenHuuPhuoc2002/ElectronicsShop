@@ -1,6 +1,9 @@
-﻿@model IEnumerable<EcommerceWeb.Areas.Admin.Models.NhanVienAdminModel>
+﻿@model IEnumerable<EcommerceWeb.Areas.Admin.Models.PhongBanModel>
+@{
+    ViewData["Title"] = "Danh sách phòng ban";
+}
 <div class="text-center">
-    <form asp-action="Search" asp-controller="NhanVien">
+    <form asp-action="Search" asp-controller="DonHang">
         <div class="mb-3 col-5" style="display: inline-flex">
             <input type="search" class="form-control" id="exampleInputEmail1" name="keyword" value="@ViewBag.CurrentFilter" placeholder="Tìm kiếm...">
             <button type="submit" class="btn btn-primary ms-lg-2"><i class="bi bi-search"></i></button>
@@ -10,12 +13,9 @@
 <table class="table table-light text-start table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">Mã nhân viên</th>
-            <th scope="col">Tên nhân viên</th>
-            <th scope="col">Email</th>
-            <th scope="col">Mật khẩu</th>
-            <th scope="col">Role</th>
-            <th scope="col">Thao tác</th>
+            <th scope="col" class="text-center">Mã phòng ban</th>
+            <th scope="col" class="text-center">Tên phòng ban</th>
+            <th scope="col" class="text-center">Thao tác</th>
         </tr>
     </thead>
     <tbody>
@@ -23,22 +23,14 @@
         {
             <tr>
                 <td>
-                    <p class="mb-0 mt-4">@item.MaNv</p>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.MaPb)</p>
                 </td>
+
                 <td>
-                    <p class="mb-0 mt-4">@item.HoTen</p>
-                </td>
-                <td>
-                    <p class="mb-0 mt-4">@item.Email</p>
-                </td>
-                <td>
-                    <p class="mb-0 mt-4">@item.MatKhau</p>
-                </td>
-                <td>
-                    <p class="mb-0 mt-4">@item.MaPb</p>
+                    <p class="mb-0 mt-4 text-center"> @Html.DisplayFor(modelItem => item.TenPb)</p>
                 </td>
                 <!-- Modal -->
-                <div class="modal fade" id="delete_@item.MaNv" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="delete_@item.MaPb" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -46,11 +38,11 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body text-start">
-                                Bạn muốn xóa "@item.HoTen" không?
+                                Bạn muốn xóa phòng ban "@item.TenPb" không?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Bỏ qua</button>
-                                <a asp-action="Delete" asp-controller="NhanVien" asp-route-id="@item.MaNv" class="btn btn-primary text-white">
+                                <a asp-action="HuyDonHang" asp-route-id="@item.MaPb" class="btn btn-primary text-white">
                                     Đồng ý
                                 </a>
                             </div>
@@ -59,15 +51,16 @@
                 </div>
                 <!-- Modal -->
                 <td>
-                    <a asp-action="Edit" asp-controller="NhanVien" asp-route-id="@item.MaNv" class="btn btn btn-success mt-4">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
-                    <a class="btn btn-danger  mt-4" data-bs-toggle="modal" data-bs-target="#delete_@item.MaNv">
-                        <i class="bi bi-trash text-white"></i>
-                    </a>
+                    <div class="text-center">
+                        <a asp-action="XacNhan" asp-route-id="@item.MaPb" class="btn btn-success mb-0 mt-2 text-end"> <i class="bi bi-pencil-square"></i>
 
+            </a>
+                        <a class="btn btn-danger mb-0 mt-2 text-end" data-bs-toggle="modal" data-bs-target="#delete_@item.MaPb"><i class="bi bi-trash text-white"></i></a>
+                    </div>
                 </td>
             </tr>
+
         }
     </tbody>
 </table>
+

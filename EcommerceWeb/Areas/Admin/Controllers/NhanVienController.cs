@@ -1,6 +1,8 @@
 ﻿using EcommerceWeb.Areas.Admin.Models;
 using EcommerceWeb.Areas.Admin.Repositories;
+using EcommerceWeb.Areas.Admin.ViewModels;
 using EcommerceWeb.Data;
+using EcommerceWeb.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,25 +16,32 @@ namespace EcommerceWeb.Areas.Admin.Controllers
     public class NhanVienController : Controller
     {
         private readonly INhanVienRepository<NhanVienAdminModel> _nhanVien;
-        private readonly HshopContext _context;
+        private readonly IPhongBanRepository<PhongBanModel> _phongBan;
+        private readonly IPhanCongRepository<PhanCongModel> _phanCong;
 
-        public NhanVienController(INhanVienRepository<NhanVienAdminModel> nhanVien, HshopContext context)
+        public NhanVienController(INhanVienRepository<NhanVienAdminModel> nhanVien, 
+                                IPhongBanRepository<PhongBanModel> phongBan, IPhanCongRepository<PhanCongModel> phanCong)
         {
             _nhanVien = nhanVien;
-            _context = context;
+            _phongBan = phongBan;
+            _phanCong = phanCong;
         }
+
+        [Authorize]
         public async Task<IActionResult> Index(int? page, int? pageSize)
         {
             int _page = page ?? 1;
             int _pageSize = pageSize ?? 10;
-            var data = await _nhanVien.GetAllAsync(_email, _page, _pageSize);
+            var data = await _nhanVien.GetAllAsync(_page, _pageSize);
             return View(data);
+
         }
 
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Role = new SelectList(_context.PhongBans, "MaPb", "TenPb");
+            
+            ViewBag.MaPhongBan = new SelectList(await _phongBan.GetAllAsync(), "MaPb", "TenPb");
             return View();
         }
 
@@ -55,9 +64,33 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 }
                 else
                 {
-                    await _nhanVien.AddAsync(model);
-                    TempData["Message"] = $"Thêm nhân viên \"{model.HoTen}\" thành công !";
-                    return RedirectToAction("Index");
+                    try
+                    {
+                        await _nhanVien.AddAsync(model);
+                        var findNhanVien = await _nhanVien.GetByEmailAsync(model.Email);
+                        var maNv = findNhanVien.MaNv;
+                        var phongBan = await _phongBan.GetById(model.MaPb);
+                        var maPb = phongBan.MaPb;
+                        var result = new PhanCongModel
+                        {
+                            MaNv = maNv,
+                            MaPb = maPb,
+                            NgayPc = DateTime.Now,
+                            HieuLuc = true
+                        };
+                        await _phanCong.AddAsync(result);
+
+                        TempData["Message"] = $"Thêm nhân viên \"{model.HoTen}\" thành công!";
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Ghi log hoặc hiển thị thông báo lỗi cho người dùng
+                        Console.WriteLine(ex.Message);
+                        TempData["Error"] = "Đã xảy ra lỗi khi thêm dữ liệu.";
+                        return RedirectToAction("Index");
+                    }
+
                 }
             }
             return View();
@@ -73,6 +106,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
+            ViewBag.MaPhongBan = new SelectList(await _phongBan.GetAllAsync(), "MaPb", "TenPb");
             if (ModelState.IsValid)
             {
                 var nhanVien = await _nhanVien.GetByIdAsync(id);
@@ -97,6 +131,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                     nhanVien.HoTen = model.HoTen;
                     nhanVien.Email = model.Email;
                     nhanVien.MatKhau = model.MatKhau;
+                    nhanVien.MaPb = model.MaPb;
                 };
                 await _nhanVien.UpdateAsync(id, nhanVien);
                 TempData["Message"] = "Chỉnh sửa thành công !";
@@ -131,4 +166,5 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             return View(loais);
         }
     }
+   
 }

@@ -1,5 +1,5 @@
-﻿@using X.PagedList.Mvc.Core
-@model X.PagedList.IPagedList<EcommerceWeb.Areas.Admin.Models.NhanVienAdminModel>
+﻿ @using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<EcommerceWeb.Areas.Admin.Models.NhanVienAdminModel> 
 @{
     ViewData["Title"] = "Danh sách nhân viên";
 
@@ -41,7 +41,7 @@
        })
         </div>
     </div>
-</div>
+</div> 
 @section Scripts {
     <script>
         $(document).ready(function () {
@@ -52,3 +52,46 @@
         });
     </script>
 }
+@* <table class="table table-light text-start table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Mã nhân viên</th>
+            <th scope="col">Tên nhân viên</th>
+            <th scope="col">Email</th>
+            <th scope="col">Mật khẩu</th>
+            <th scope="col">Role</th>
+            <th scope="col">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var nhanViens in Model)
+        {
+            <tr>
+                <td>
+                    <p class="mb-0 mt-4">@nhanViens.NhanVien.MaNv</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@nhanViens.NhanVien.HoTen</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@nhanViens.NhanVien.Email</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@nhanViens.NhanVien.MatKhau</p>
+                </td>
+                <td>
+                    <p class="mb-0 mt-4">@nhanViens.</p>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="NhanVien" asp-route-id="@nhanViens.NhanVien.MaNv" class="btn btn-success mt-4">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="btn btn-danger mt-4" data-bs-toggle="modal" data-bs-target="#delete_@nhanViens.NhanVien.MaNv">
+                        <i class="bi bi-trash text-white"></i>
+                    </a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> *@

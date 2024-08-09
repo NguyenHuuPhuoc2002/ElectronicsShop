@@ -37,7 +37,7 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             }
         }
 
-        public async Task<IEnumerable<NhanVienAdminModel>> GetAllAsync(string email, int page, int pageSize)
+        public async Task<IEnumerable<NhanVienAdminModel>> GetAllAsync(int page, int pageSize)
         {
 
             var nhanViens = await _context.NhanViens.Select(p => new NhanVienAdminModel
@@ -45,7 +45,9 @@ namespace EcommerceWeb.Areas.Admin.Repositories
                 MaNv = p.MaNv,
                 HoTen = p.HoTen,
                 Email = p.Email,
-                MatKhau = p.MatKhau
+                MatKhau = p.MatKhau,
+                MaPb  = p.MaPb
+                
             }).ToListAsync();
 
             return nhanViens.ToPagedList(page, pageSize);
@@ -76,6 +78,7 @@ namespace EcommerceWeb.Areas.Admin.Repositories
                 HoTen = p.HoTen,
                 Email = p.Email,
                 MatKhau = p.MatKhau,
+                MaPb = p.MaPb,
             });
             return result.ToPagedList(page, pageSize);
         }

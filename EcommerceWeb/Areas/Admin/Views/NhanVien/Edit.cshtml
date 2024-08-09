@@ -31,6 +31,10 @@
                 <span asp-validation-for="MatKhau" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="MaPb" class="control-label"></label>
+                <select asp-for="MaPb" class="form-control" asp-items="ViewBag.MaPhongBan"></select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Chỉnh Sửa" class="btn btn-primary w-100 text-uppercase mt-2" />
             </div>
         </form>

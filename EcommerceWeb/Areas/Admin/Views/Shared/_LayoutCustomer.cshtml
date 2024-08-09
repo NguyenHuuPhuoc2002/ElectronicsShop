@@ -51,6 +51,7 @@
             <a asp-action="Index" asp-controller="Loai" class="w3-bar-item w3-button w3-padding "><i class="bi bi-triangle"></i>  Loại</a>
             <a asp-action="Index" asp-controller="NhaCungCap" class="w3-bar-item w3-button w3-padding "><i class="bi bi-house-fill"></i>  Nhà cung cấp</a>
             <a asp-action="Index" asp-controller="NhanVien" class="w3-bar-item w3-button w3-padding "><i class="bi bi-people"></i></i>  Nhân viên</a>
+            <a asp-action="Index" asp-controller="PhongBan" class="w3-bar-item w3-button w3-padding "><i class="bi bi-people"></i></i>  Phòng ban</a>
 
             <hr />
             <a asp-action="Index" asp-controller="DonHang" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Đơn hàng mới (@await Component.InvokeAsync("DemDonHang") )</a>
@@ -95,6 +96,7 @@
                             <p class="w3-right ms-lg-3">
                                 <a asp-action="Create" asp-controller="NhanVien" class="btn btn-primary">Thêm mới nhân viên</a>
                             </p>
+                   
                             <h2>@ViewData["Title"]</h2>
                         </div>
                     </header>

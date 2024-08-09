@@ -1,9 +1,11 @@
 ﻿using EcommerceWeb.Areas.Admin.Models;
 using EcommerceWeb.Areas.Admin.Repositories;
 using EcommerceWeb.Data;
+using EcommerceWeb.Helpers;
 using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EcommerceWeb.Areas.Admin.Controllers
 {
@@ -12,14 +14,17 @@ namespace EcommerceWeb.Areas.Admin.Controllers
     public class LoaiController : Controller
     {
         private readonly ILoaiRepository<LoaiAdminModel> _loai;
+        private readonly HshopContext _context;
 
-        public LoaiController(ILoaiRepository<LoaiAdminModel> loai)
+        public LoaiController(ILoaiRepository<LoaiAdminModel> loai, HshopContext context)
         {
             _loai = loai;
+            _context = context;
         }
         [Authorize]
         public async Task<IActionResult> Index(int? page, int? pageSize)
         {
+            
             var _page = page ?? 1;
             var _pageSize = pageSize ?? 10;
             var loais = await _loai.GetAllAsync(_page, _pageSize);
@@ -28,6 +33,12 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         [Authorize]
         public IActionResult Create()
         {
+            /*var claimManv = User.FindFirst(MySetting.CLAIM_EMPLOYEE_ID)?.Value;
+            var count = _context.PhanCongs.Count(p => p.MaNv == claimManv);
+            if(count == 0)
+            {
+                return Redirect("/404");
+            }*/
             return View();
         }
         [HttpPost]
