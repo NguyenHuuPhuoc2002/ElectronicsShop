@@ -85,7 +85,6 @@ namespace EcommerceWeb.Areas.Admin.Repositories
                                         PhiVanChuyen = hd.PhiVanChuyen,
                                         TrangThai = tt.TenTrangThai,
                                         MaTrangThai = hd.MaTrangThai,
-                                        MaHd = hd.MaHd,
                                         GhiChu = hd.GhiChu
                                     }).ToListAsync();
 
