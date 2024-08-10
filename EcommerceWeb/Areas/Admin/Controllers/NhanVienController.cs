@@ -71,7 +71,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                         await _nhanVien.AddAsync(model);
                         var findNhanVien = await _nhanVien.GetByEmailAsync(model.Email);
                         var maNv = findNhanVien.MaNv;
-                        var phongBan = await _phongBan.GetById(model.MaPb);
+                        var phongBan = await _phongBan.GetByIdAsync(model.MaPb);
                         var maPb = phongBan.MaPb;
                         var result = new PhanCongModel
                         {

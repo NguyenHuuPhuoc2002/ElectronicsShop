@@ -138,8 +138,7 @@ namespace EcommerceWeb
             app.UseAuthentication();
             app.UseAuthorization();
 
-           /* //không có quyền chỉ đá ra trang 404
-            app.UseStatusCodePagesWithReExecute("/404");*/
+           
 
             app.MapControllerRoute(
                 name: "Areas",

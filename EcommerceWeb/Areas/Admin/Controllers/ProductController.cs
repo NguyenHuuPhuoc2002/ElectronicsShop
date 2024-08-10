@@ -16,6 +16,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
     [Authorize(AuthenticationSchemes = "AdminScheme")]
     public class ProductController : Controller
     {
+        private readonly IHangHoaRepository<HangHoaVM> _hangHoa;
         private readonly HshopContext _context;
         private readonly IHangHoaAdminRepository<HangHoaAdminVM> _admin;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -23,6 +24,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         public ProductController(IHangHoaRepository<HangHoaVM> hangHoa, HshopContext context, 
                 IWebHostEnvironment webHostEnvironment, IHangHoaAdminRepository<HangHoaAdminVM> admin)
         {
+            _hangHoa = hangHoa;
             _context = context;
             _admin = admin;
             _webHostEnvironment = webHostEnvironment;
@@ -49,20 +51,29 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             else
             {
                 string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "Hinh/HangHoa");
-                string oldfilePath = Path.Combine(uploadsDir, hangHoa.Hinh);
-                try
+
+                // Kiểm tra nếu Hinh không phải là null hoặc rỗng trước khi tạo đường dẫn
+                if (!string.IsNullOrEmpty(hangHoa.Hinh))
                 {
-                    if (System.IO.File.Exists(oldfilePath))
+                    string oldfilePath = Path.Combine(uploadsDir, hangHoa.Hinh);
+
+                    try
                     {
-                        System.IO.File.Delete(oldfilePath);
+                        if (System.IO.File.Exists(oldfilePath))
+                        {
+                            System.IO.File.Delete(oldfilePath);
+                        }
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("", "Xóa sản phẩm không thành công!");
                     }
                 }
-                catch
-                {
-                    ModelState.AddModelError("", $"Xóa sản phẩm \"{hangHoa.TenHh}\" không thành công !");
-                }
+
+                // Xóa sản phẩm khỏi cơ sở dữ liệu
                 await _admin.DeleteAsync(id);
-                TempData["Message"] = $"Xóa sản phẩm \"{hangHoa.TenHh}\" thành công !";
+                TempData["Message"] = "Xóa sản phẩm thành công!";
+
             }
             return RedirectToAction("Index");
         }
@@ -111,10 +122,10 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 var product = await _admin.GetByName(hangHoa.TenHh);
                 if (product != null)
                 {
-                    ViewBag.Message = "Đã tồn tại sản phẩm \"{hangHoa.TenHh}\" !";
+                    ViewBag.Message = "Đã tồn tại sản phẩm này !";
                     ViewBag.NhaCungCaps = new SelectList(_context.NhaCungCaps, "MaNcc", "TenCongTy");
                     ViewBag.Loais = new SelectList(_context.Loais, "MaLoai", "TenLoai");
-                    return View();
+                    return View(hangHoa);
                 }
                 if (hangHoa.ImageUpload != null)
                 {
@@ -128,11 +139,13 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                     hangHoa.Hinh = imageName;
                 }
                 await _admin.AddAsync(hangHoa);
-                TempData["Message"] = $"Thêm sản phẩm \"{hangHoa.TenHh}\" thành công !";
+                TempData["Message"] = $"Thêm sản phẩm thành công !";
                 return RedirectToAction("Index");
             }
-
-            }
+            ViewBag.Message = "Đã tồn tại sản phẩm này !";
+            ViewBag.NhaCungCaps = new SelectList(_context.NhaCungCaps, "MaNcc", "TenCongTy");
+            ViewBag.Loais = new SelectList(_context.Loais, "MaLoai", "TenLoai");
+            return View(hangHoa);
         }
 
         [Authorize]
@@ -165,9 +178,9 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             {
                 return Redirect("/404");
             }
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                if(hangHoa.ImageUpload != null)
+                if (hangHoa.ImageUpload != null)
                 {
                     //upload new image
                     string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "Hinh/HangHoa");
@@ -192,7 +205,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                     await hangHoa.ImageUpload.CopyToAsync(fs);
                     fs.Close();
                     existed_hangHoa.Hinh = imageName;
-                    
+
                 }
                 existed_hangHoa.TenHh = hangHoa.TenHh;
                 existed_hangHoa.MoTaDonVi = hangHoa.MoTaDonVi;

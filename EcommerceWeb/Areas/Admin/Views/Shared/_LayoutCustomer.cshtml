@@ -28,7 +28,7 @@
     <nav class="w3-sidebar w3-collapse w3-white " style="z-index:3;width:265px;" id="mySidebar">
         <br>
         <div class="w3-container w3-row">
-            @if(userRole == "Admin")
+            @if (userRole == "Admin")
             {
                 <div class="w3-col s4">
                     <img src="~/Hinh/Admin/hoanghon.jpg" class="w3-circle w3-margin-right" style="width: 45px; height: 45px">
@@ -65,14 +65,16 @@
                 {
                     <a asp-action="DangXuat" asp-controller="Login" asp-area="Admin" class="w3-bar-item w3-button w3-padding">
                         <i class="bi bi-box-arrow-left"></i>  Đăng xuất
-                    </a>   <br><br>
+                    </a>   <br>
+
+                    <br>
                 }
 
             }
-           
+
         </div>
     </nav>
-   
+
     <!-- Overlay effect when opening sidebar on small screens -->
     <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
@@ -98,9 +100,13 @@
                             <p class="w3-right ms-lg-3">
                                 <a asp-action="Create" asp-controller="NhanVien" class="btn btn-primary">Thêm mới nhân viên</a>
                             </p>
-                   
+                            <p class="w3-right ms-lg-3">
+                                <a asp-action="Create" asp-controller="PhongBan" class="btn btn-primary">Thêm mới phòng ban</a>
+                            </p>
+                            
                         </div>
                     </header>
+                    <h2 class="text-center mt-2">@ViewData["Title"]</h2>
                     @RenderBody()
                 </div>
             </div>

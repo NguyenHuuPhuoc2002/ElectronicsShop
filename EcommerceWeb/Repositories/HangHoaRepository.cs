@@ -29,7 +29,7 @@ namespace EcommerceWeb.Repositories
             {
                 hangHoas = _context.HangHoas.Where(p => p.MaLoai == loai.Value);
             }
-            var result = hangHoas.Select(p => new HangHoaVM
+            var result = hangHoas.OrderByDescending(p => p.MaHh).Select(p => new HangHoaVM
             {
                 MaHh = p.MaHh,
                 TenHh = p.TenHh,
@@ -38,6 +38,7 @@ namespace EcommerceWeb.Repositories
                 MoTaNgan = p.MoTaDonVi ?? "",
                 TenLoai = p.MaLoaiNavigation.TenLoai
             });
+ 
             return await result.ToPagedListAsync(page, pageSize);
         }
 

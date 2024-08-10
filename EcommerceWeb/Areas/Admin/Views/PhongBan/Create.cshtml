@@ -1,0 +1,63 @@
+﻿@model EcommerceWeb.Areas.Admin.Models.PhongBanModel
+@{
+    ViewData["Title"] = "Thêm mới phòng ban";
+}
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Thông báo</h5>
+            </div>
+            <div class="modal-body text-start ">
+                <span id="messageContent" class="text-danger">@ViewBag.Message</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="row w3-container">
+
+    <hr />
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MaPb" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="MaPb" class="form-control" />
+                <span asp-validation-for="MaPb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenPb" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="TenPb" class="form-control" />
+                <span asp-validation-for="TenPb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThongTin" class="control-label fw-bold mt-2 mb-2"></label>
+                <textarea asp-for="ThongTin" class="form-control" rows="2" cols="50"></textarea>
+                <span asp-validation-for="ThongTin" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <button type="submit" value="Create" class="btn btn-primary w-100 text-uppercase">Thêm</button>
+            </div>
+        </form>
+        <div class="mt-3 text-center mb-5">
+            <a asp-action="Index">Quay lại</a>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var messageElement = document.getElementById("messageContent");
+            if (messageElement && messageElement.innerText.trim() !== "") {
+                $('#messageModal').modal('show');
+            }
+        });
+    </script>
+}

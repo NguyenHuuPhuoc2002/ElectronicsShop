@@ -19,6 +19,7 @@ namespace EcommerceWeb.Areas.Admin.Models
         [Display(Name = "Mật khẩu")]
         [Required(ErrorMessage = "*")]
         public string MatKhau {  get; set; }
+        [Display(Name = "Phòng ban")]
         public string MaPb {  get; set; }
        
     }

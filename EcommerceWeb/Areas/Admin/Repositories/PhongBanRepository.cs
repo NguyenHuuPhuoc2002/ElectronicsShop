@@ -20,7 +20,8 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             var _pb = await _context.PhongBans.FirstOrDefaultAsync(p => p.TenPb.ToLower().Trim().Contains(phongBan.TenPb.ToLower()));
             if(_pb == null)
             {
-                await _context.AddAsync(phongBan);
+                var result = _mapper.Map<PhongBan>(phongBan);
+                await _context.AddAsync(result);
                 await _context.SaveChangesAsync();
             }
         }
@@ -47,9 +48,16 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             return result;
         }
 
-        public async Task<PhongBanModel> GetById(string id)
+        public async Task<PhongBanModel> GetByIdAsync(string id)
         {
             var _pb = await _context.PhongBans.FirstOrDefaultAsync(p => p.MaPb == id);
+            var result = _mapper.Map<PhongBanModel>(_pb);
+            return result;
+        }
+
+        public async Task<PhongBanModel> GetByNameAsync(string name)
+        {
+            var _pb = await _context.PhongBans.FirstOrDefaultAsync(p => p.TenPb.ToLower() == name.ToLower().Trim());
             var result = _mapper.Map<PhongBanModel>(_pb);
             return result;
         }

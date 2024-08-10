@@ -7,7 +7,7 @@ namespace EcommerceWeb.Areas.Admin.Models
 {
     public class HangHoaAdminVM
     {
-
+        public int MaHh { get; set; }
         [Display(Name = "Tên sản phẩm")]
         [Required(ErrorMessage = "*")]
         public string TenHh { get; set; }
