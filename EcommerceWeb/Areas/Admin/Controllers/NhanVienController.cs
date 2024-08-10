@@ -34,13 +34,11 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             int _pageSize = pageSize ?? 10;
             var data = await _nhanVien.GetAllAsync(_page, _pageSize);
             return View(data);
-
         }
 
         [Authorize]
         public async Task<IActionResult> Create()
         {
-            
             ViewBag.MaPhongBan = new SelectList(await _phongBan.GetAllAsync(), "MaPb", "TenPb");
             return View();
         }

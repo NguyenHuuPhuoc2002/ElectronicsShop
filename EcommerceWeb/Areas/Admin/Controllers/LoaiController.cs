@@ -24,7 +24,6 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> Index(int? page, int? pageSize)
         {
-            
             var _page = page ?? 1;
             var _pageSize = pageSize ?? 10;
             var loais = await _loai.GetAllAsync(_page, _pageSize);
@@ -33,12 +32,6 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            /*var claimManv = User.FindFirst(MySetting.CLAIM_EMPLOYEE_ID)?.Value;
-            var count = _context.PhanCongs.Count(p => p.MaNv == claimManv);
-            if(count == 0)
-            {
-                return Redirect("/404");
-            }*/
             return View();
         }
         [HttpPost]
