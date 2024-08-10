@@ -74,6 +74,7 @@ namespace EcommerceWeb.Areas.Admin.Repositories
                                     where hd.MaTrangThai == 0
                                     select new HoaDonVM
                                     {
+                                        MaHd = hd.MaHd,
                                         MaNv = hd.MaNv,
                                         MaKh = hd.MaKh,
                                         NgayDat = hd.NgayDat,
@@ -91,9 +92,10 @@ namespace EcommerceWeb.Areas.Admin.Repositories
             return listHoaDon.ToPagedList(page, pageSize);
 
         }
-        public async Task UpdateStateAsync(int id, int state)
+        public async Task UpdateStateAsync(int id, int state, string maNv)
         {
             var data = await _context.HoaDons.SingleOrDefaultAsync(p => p.MaHd == id);
+            data.MaNv = maNv;
             data.MaTrangThai = state;
             _context.HoaDons.Update(data);
             _context.SaveChanges();

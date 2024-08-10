@@ -6,6 +6,7 @@ using EcommerceWeb.Repositories;
 using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EcommerceWeb.Areas.Admin.Controllers
 {
@@ -34,24 +35,26 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         [Authorize(Policy = "BusinessOrDirectors")]
         public async Task<IActionResult> XacNhan(int id)
         {
+            var maNv = User.FindFirst(MySetting.CLAIM_EMPLOYEE_ID)?.Value;
             int state = 3;
             if(id == null)
             {
                 return Redirect("/404");
             }
-            await _donHang.UpdateStateAsync(id, state);
+            await _donHang.UpdateStateAsync(id, state, maNv);
             return RedirectToAction("Index");
         }
         [Authorize]
         [Authorize(Policy = "BusinessOrDirectors")]
         public async Task<IActionResult> HuyDonHang(int id)
         {
+            var maNv = User.FindFirst(MySetting.CLAIM_EMPLOYEE_ID)?.Value;
             int state = -1;
             if (id == null)
             {
                 return Redirect("/404");
             }
-            await _donHang.UpdateStateAsync(id, state);
+            await _donHang.UpdateStateAsync(id, state, maNv);
             TempData["Message"] = "Hủy đơn thành công !";
             return RedirectToAction("Index");
         }

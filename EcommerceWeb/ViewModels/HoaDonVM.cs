@@ -10,6 +10,8 @@ namespace EcommerceWeb.ViewModels
 
         [DataType(DataType.Date)]
         public DateTime NgayDat { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime NgayCan { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? NgayGiao { get; set; }
