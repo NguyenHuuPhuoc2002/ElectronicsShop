@@ -19,7 +19,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         private readonly IPhongBanRepository<PhongBanModel> _phongBan;
         private readonly IPhanCongRepository<PhanCongModel> _phanCong;
 
-        public NhanVienController(INhanVienRepository<NhanVienAdminModel> nhanVien, 
+        public NhanVienController(INhanVienRepository<NhanVienAdminModel> nhanVien,
                                 IPhongBanRepository<PhongBanModel> phongBan, IPhanCongRepository<PhanCongModel> phanCong)
         {
             _nhanVien = nhanVien;
@@ -28,6 +28,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         }
 
         [Authorize]
+        [Authorize(Policy = "Directors")]
         public async Task<IActionResult> Index(int? page, int? pageSize)
         {
             int _page = page ?? 1;
@@ -37,10 +38,13 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         }
 
         [Authorize]
+        [Authorize(Policy = "Directors")]
         public async Task<IActionResult> Create()
         {
+
             ViewBag.MaPhongBan = new SelectList(await _phongBan.GetAllAsync(), "MaPb", "TenPb");
             return View();
+
         }
 
         [HttpPost]
@@ -50,12 +54,12 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             {
                 var nv = await _nhanVien.GetByIdAsync(model.MaNv);
                 var nvEmail = await _nhanVien.GetByEmailAsync(model.Email);
-                if(nv != null)
+                if (nv != null)
                 {
                     ViewBag.Message = $"Đã tồn tại mã nhân viên \"{model.MaNv}\" !";
                     return View(model);
                 }
-                if(nvEmail != null)
+                if (nvEmail != null)
                 {
                     ViewBag.Message = $"Đã tồn tại email \"{model.Email}\" !";
                     return View(model);
@@ -118,7 +122,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var nhanVien = await _nhanVien.GetByIdAsync(id);
-                
+
                 if (nhanVien == null)
                 {
                     return Redirect("/404");
@@ -164,5 +168,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             return View(loais);
         }
     }
-   
+
+
+
 }

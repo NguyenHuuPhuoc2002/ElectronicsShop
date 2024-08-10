@@ -31,6 +31,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             return View(oders);
         }
         [Authorize]
+        [Authorize(Policy = "BusinessOrDirectors")]
         public async Task<IActionResult> XacNhan(int id)
         {
             int state = 3;
@@ -42,6 +43,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
         [Authorize]
+        [Authorize(Policy = "BusinessOrDirectors")]
         public async Task<IActionResult> HuyDonHang(int id)
         {
             int state = -1;
@@ -50,6 +52,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 return Redirect("/404");
             }
             await _donHang.UpdateStateAsync(id, state);
+            TempData["Message"] = "Hủy đơn thành công !";
             return RedirectToAction("Index");
         }
 

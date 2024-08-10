@@ -30,6 +30,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             return View(loais);
         }
         [Authorize]
+        [Authorize(Policy = "BusinessOrDirectors")]
         public IActionResult Create()
         {
             return View();
@@ -40,7 +41,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var loai = await _loai.GetByNameAsync(model.TenLoai);
-                if(loai != null)
+                if (loai != null)
                 {
                     ViewBag.Message = $"Đã tồn tại loại \"{model.TenLoai}\" !";
                     return View();
@@ -57,27 +58,39 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
-            if(id == null)
+            var role = User.FindFirst(MySetting.DEPARTMENT)?.Value;
+            if (role == MySetting.ROLE_BUSINESS || role == MySetting.ROLE_DIRECTORS)
             {
-                return Redirect("/404");
+                if (id == null)
+                {
+                    return Redirect("/404");
+                }
+                await _loai.DeleteAsync(id);
+                TempData["Message"] = "Xóa loại thành công !";
+                return RedirectToAction("Index");
             }
-            await _loai.DeleteAsync(id);
-            TempData["Message"] = "Xóa loại thành công !";
-            return RedirectToAction("Index");
+            TempData["Error"] = "Bạn không có quyền thực hiện hành động này !";
+            return RedirectToAction("Index", "Product");
         }
 
         [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
-            var loai = await _loai.GetByIdAsync(id);
-            if(loai == null)
+            var role = User.FindFirst(MySetting.DEPARTMENT)?.Value;
+            if (role == MySetting.ROLE_BUSINESS || role == MySetting.ROLE_DIRECTORS)
             {
-                return Redirect("/404");
+                var loai = await _loai.GetByIdAsync(id);
+                if (loai == null)
+                {
+                    return Redirect("/404");
+                }
+                else
+                {
+                    return View(loai);
+                }
             }
-            else
-            {
-                return View(loai);
-            }
+            TempData["Error"] = "Bạn không có quyền thực hiện hành động này !";
+            return RedirectToAction("Index", "Product");
         }
 
         [HttpPost]
@@ -86,7 +99,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var exist_loai = await _loai.GetByIdAsync(id);
-                if (exist_loai == null) 
+                if (exist_loai == null)
                 {
                     return Redirect("/404");
                 }

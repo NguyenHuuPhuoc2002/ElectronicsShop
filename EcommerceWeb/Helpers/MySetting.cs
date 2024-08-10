@@ -19,6 +19,12 @@
         public static double SHIPPING_FEE = 30;
         public static string CLAIM_CUSTOMER_ID = "CustomerID";
         public static string CLAIM_EMPLOYEE_ID = "EmployeeID";
+
+        public static string DEPARTMENT = "Permission";
+        public static string ROLE_DIRECTORS = "BGD";
+        public static string ROLE_ACCOUNTING = "PKTo";
+        public static string ROLE_TECHNIQUE = "PKT";
+        public static string ROLE_BUSINESS = "PKD";
     }
 
     public static class PaymentType

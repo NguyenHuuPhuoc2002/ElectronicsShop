@@ -40,6 +40,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         }
 
         [Authorize]
+        [Authorize(Policy = "BusinessOrDirectors")]
         public async Task<IActionResult> Delete(int id)
         {
             var hangHoa = await _admin.GetById(id);
@@ -96,6 +97,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         }
 
         [Authorize]
+        [Authorize(Policy = "BusinessOrDirectors")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -152,6 +154,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         }
 
         [Authorize]
+        [Authorize(Policy = "BusinessOrDirectors")]
         [HttpGet]
         public async Task<IActionResult> Edit (int id)
         {

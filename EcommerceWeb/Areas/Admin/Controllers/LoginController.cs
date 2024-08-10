@@ -49,7 +49,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                                 new Claim(ClaimTypes.Email, nhanVien.Email),
                                 new Claim(ClaimTypes.Name, nhanVien.HoTen),
                                 new Claim(MySetting.CLAIM_EMPLOYEE_ID, nhanVien.MaNv),
-
+                                new Claim(MySetting.DEPARTMENT, nhanVien.MaPb),
 								//claim - role động
 								new Claim(ClaimTypes.Role, MySetting.ROLE_ADMIN)
                             };

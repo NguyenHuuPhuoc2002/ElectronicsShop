@@ -26,6 +26,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         }
 
         [Authorize]
+        [Authorize(Policy = "BusinessOrDirectors")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +54,7 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         }
 
         [Authorize]
+        [Authorize(Policy = "BusinessOrDirectors")]
         public async Task<IActionResult> Edit(string id)
         {
             var nhaCungCap = await _nhaCungCap.GetByIdAsync(id);
@@ -91,6 +93,8 @@ namespace EcommerceWeb.Areas.Admin.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [Authorize(Policy = "BusinessOrDirectors")]
         public async Task<IActionResult> Delete(string id)
         {
             if(string.IsNullOrEmpty(id))

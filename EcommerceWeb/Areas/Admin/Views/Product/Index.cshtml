@@ -11,7 +11,15 @@
                 <h5 class="modal-title" id="messageModalLabel">Thông báo</h5>
             </div>
             <div class="modal-body text-start ">
-                <span id="messageContent" class="text-success">@TempData["Message"]</span>
+                @if (TempData["Message"] == null)
+                {
+                    <span id="messageContent" class="text-danger">@TempData["Error"]</span>
+                }
+                else
+                {
+                    <span id="messageContent" class="text-success">@TempData["Message"]</span>
+                }
+               
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Đóng</button>

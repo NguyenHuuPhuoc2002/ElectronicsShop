@@ -78,7 +78,33 @@ namespace EcommerceWeb
                 options.AccessDeniedPath = "/AccessDenied";
             });
 
+
             // Authorization
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("BusinessOrDirectors", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim(c =>
+                            (c.Type == MySetting.DEPARTMENT &&
+                             (c.Value == MySetting.ROLE_BUSINESS || c.Value == MySetting.ROLE_DIRECTORS))
+                        )
+                    ));
+                options.AddPolicy("Business", policy =>
+                     policy.RequireAssertion(context =>
+                        context.User.HasClaim(c =>
+                            (c.Type == MySetting.DEPARTMENT &&
+                            (c.Value == MySetting.ROLE_BUSINESS))
+                        )
+                    ));
+                options.AddPolicy("Directors", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim(c =>
+                            (c.Type == MySetting.DEPARTMENT &&
+                             (c.Value == MySetting.ROLE_DIRECTORS))
+                        )
+                    ));
+
+            });
 
 
             //đăng kí PaypalClient dạng SingleTon
@@ -112,6 +138,8 @@ namespace EcommerceWeb
             app.UseAuthentication();
             app.UseAuthorization();
 
+           /* //không có quyền chỉ đá ra trang 404
+            app.UseStatusCodePagesWithReExecute("/404");*/
 
             app.MapControllerRoute(
                 name: "Areas",
