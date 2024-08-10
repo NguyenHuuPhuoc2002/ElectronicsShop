@@ -16,7 +16,6 @@ namespace EcommerceWeb.Areas.Admin.Controllers
     [Authorize(AuthenticationSchemes = "AdminScheme")]
     public class ProductController : Controller
     {
-        private readonly IHangHoaRepository<HangHoaVM> _hangHoa;
         private readonly HshopContext _context;
         private readonly IHangHoaAdminRepository<HangHoaAdminVM> _admin;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -24,7 +23,6 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         public ProductController(IHangHoaRepository<HangHoaVM> hangHoa, HshopContext context, 
                 IWebHostEnvironment webHostEnvironment, IHangHoaAdminRepository<HangHoaAdminVM> admin)
         {
-            _hangHoa = hangHoa;
             _context = context;
             _admin = admin;
             _webHostEnvironment = webHostEnvironment;
@@ -108,9 +106,6 @@ namespace EcommerceWeb.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(HangHoaAdminVM hangHoa)
         {
-            ViewBag.Categories = new SelectList(_context.NhaCungCaps, "MaNcc", "TenCongTy", hangHoa.MaNcc);
-            ViewBag.Brands = new SelectList(_context.Loais, "MaLoai", "TenLoai", hangHoa.MaLoai);
-
             if (ModelState.IsValid)
             {
                 var product = await _admin.GetByName(hangHoa.TenHh);
@@ -136,19 +131,6 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                 TempData["Message"] = $"Thêm sản phẩm \"{hangHoa.TenHh}\" thành công !";
                 return RedirectToAction("Index");
             }
-            else
-            {
-                TempData["error"] = "Model có một vài thứ đang bị lỗi";
-                var errors = new List<string>();
-                foreach (var value in ModelState.Values)
-                {
-                    foreach (var error in value.Errors)
-                    {
-                        errors.Add(error.ErrorMessage);
-                    }
-                }
-                var errorMessage = string.Join("\n", errors);
-                return BadRequest(errorMessage);
 
             }
         }
