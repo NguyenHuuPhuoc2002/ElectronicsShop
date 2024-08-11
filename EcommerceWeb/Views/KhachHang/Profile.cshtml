@@ -1,11 +1,82 @@
-﻿
+﻿@model EcommerceWeb.ViewModels.KhachHangModel
 @{
     ViewData["Title"] = "Profile";
 }
-<div class="container-fluid py-5 col-6" style="margin-top: 90px">
-    <div class="container py-5">
-	<h2>Welcome @Context.User.Identity.Name </h2>
-</div>
-</div>
 
+<form asp-action="Edit" asp-controller="KhachHang" method="post" enctype="multipart/form-data">
+    <div class="container-fluid py-5 row">
+        <h2 class="text-center">Thông tin cá nhân</h2>
+        <div class="col-3 ms-lg-5 mt-5">
+            <div class="form-group">
+                <label asp-for="ImageUpload" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="ImageUpload" type="file" class="form-control" />
+                <span asp-validation-for="ImageUpload" class="text-danger"></span>
+                <img id="imgpreview" class="pt-2 img-fluid me-5 rounded-circle" src="~/Hinh/KhachHang/@Model.Hinh" width="200" height="200" />
+            </div>
+        </div>
+        <div class=" col-5">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mx-auto">
+                <label asp-for="MaKh" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="MaKh" readonly class="form-control" value="@Model.MaKh" />
+                <span asp-validation-for="MaKh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MatKhau" class="control-label fw-bold mt-2 mb-2"></label>
+                <input type="password" asp-for="MatKhau" class="form-control" value="@Model.MatKhau" />
+                <span asp-validation-for="MatKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="Email" readonly class="form-control" value="@Model.Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group mx-auto">
+                <label asp-for="HoTen" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="HoTen" class="form-control" value="@Model.HoTen" />
+                <span asp-validation-for="HoTen" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="NgaySinh" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="NgaySinh" class="form-control" />
+                <span asp-validation-for="NgaySinh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiaChi" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="DiaChi" class="form-control" value="@Model.DiaChi" />
+                <span asp-validation-for="DiaChi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DienThoai" class="control-label fw-bold mt-2 mb-2"></label>
+                <input asp-for="DienThoai" class="form-control" value="@Model.DienThoai" />
+                <span asp-validation-for="DienThoai" class="text-danger"></span>
+            </div>
 
+            <div class="form-group form-check mt-3 mb-1">
+                <label class="form-check-label">
+                    <input class="form-check-input " asp-for="GioiTinh" /> 
+                    @Html.DisplayNameFor(model => model.GioiTinh)
+                </label>
+            </div>
+            <button type="submit" class="btn border-secondary text-uppercase text-primary w-100 mt-4">Chỉnh sửa</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var messageElement = document.getElementById("messageContent");
+            if (messageElement && messageElement.innerText.trim() !== "") {
+                $('#messageModal').modal('show');
+            }
+        });
+    </script>
+    <script>
+        $("#ImageUpload").change(function () {
+            readURL(this)
+        })
+    </script>
+
+}

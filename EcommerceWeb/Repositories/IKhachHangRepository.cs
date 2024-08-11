@@ -7,5 +7,7 @@ namespace EcommerceWeb.Repositories
     {
         Task Register(KhachHang kh);
         Task<T> GetKhachHang(LogInVM model);
+        Task<T> GetKhachHangByIdAsync(string maKh);
+        Task UpdateAsync(T khachHang);
     }
 }

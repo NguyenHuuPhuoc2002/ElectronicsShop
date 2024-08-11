@@ -187,18 +187,21 @@ namespace EcommerceWeb.Areas.Admin.Controllers
                     string imageName = Guid.NewGuid().ToString() + "_" + hangHoa.ImageUpload.FileName;
                     string filePath = Path.Combine(uploadsDir, imageName);
 
-                    //delete old anh
-                    string oldfilePath = Path.Combine(uploadsDir, existed_hangHoa.Hinh);
-                    try
+                    if (existed_hangHoa.Hinh != null)
                     {
-                        if (System.IO.File.Exists(oldfilePath))
+                        //delete old anh
+                        string oldfilePath = Path.Combine(uploadsDir, existed_hangHoa.Hinh);
+                        try
                         {
-                            System.IO.File.Delete(oldfilePath);
+                            if (System.IO.File.Exists(oldfilePath))
+                            {
+                                System.IO.File.Delete(oldfilePath);
+                            }
                         }
-                    }
-                    catch
-                    {
-                        ModelState.AddModelError("", "Loi Delete");
+                        catch
+                        {
+                            ModelState.AddModelError("", "Loi Delete");
+                        }
                     }
 
                     FileStream fs = new FileStream(filePath, FileMode.Create);

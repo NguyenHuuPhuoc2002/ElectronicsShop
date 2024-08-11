@@ -3,6 +3,23 @@
 }
 <!-- Single Page Header start -->
 @RenderSection("BreadCum", required: false)
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Thông báo</h5>
+            </div>
+            <div class="modal-body text-start ">
+                <span id="messageContent" class="text-primary">@TempData["MessageUpdateInfo"]</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark text-white" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
 <!-- Single Page Header End -->
 <!-- Fruits Shop Start-->
 <div class="container-fluid fruite py-5">
@@ -82,3 +99,13 @@
     </div>
 </div>
 <!-- Fruits Shop End-->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var messageElement = document.getElementById("messageContent");
+            if (messageElement && messageElement.innerText.trim() !== "") {
+                $('#messageModal').modal('show');
+            }
+        });
+    </script>
+}

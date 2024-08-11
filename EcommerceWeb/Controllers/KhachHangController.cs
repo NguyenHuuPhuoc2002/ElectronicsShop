@@ -6,6 +6,7 @@ using EcommerceWeb.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Security.Claims;
@@ -16,11 +17,14 @@ namespace EcommerceWeb.Controllers
     {
         private readonly IKhachHangRepository<KhachHang> _context;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public KhachHangController(IKhachHangRepository<KhachHang> context, IMapper mapper)
+        public KhachHangController(IKhachHangRepository<KhachHang> context, IMapper mapper
+                                    , IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _mapper = mapper;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         #region Register
@@ -136,9 +140,63 @@ namespace EcommerceWeb.Controllers
 
         #region Profile
         [Authorize]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View();
+            var claimMaKh = User.FindFirst(MySetting.CLAIM_CUSTOMER_ID)?.Value;
+            var khachHang = await _context.GetKhachHangByIdAsync(claimMaKh);
+            var result = _mapper.Map<KhachHangModel>(khachHang);
+            return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(KhachHangModel model)
+        {
+            var existed_khachHang = await _context.GetKhachHangByIdAsync(model.MaKh);
+            if (ModelState.IsValid)
+            {
+                if (model.ImageUpload != null)
+                {
+                    //upload new image
+                    string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "Hinh/KhachHang");
+                    string imageName = Guid.NewGuid().ToString() + "_" + model.ImageUpload.FileName;
+                    string filePath = Path.Combine(uploadsDir, imageName);
+                    if (!string.IsNullOrEmpty(existed_khachHang.Hinh))
+                    {
+                        //delete old anh
+                        string oldfilePath = Path.Combine(uploadsDir, existed_khachHang.Hinh);
+                        try
+                        {
+                            if (System.IO.File.Exists(oldfilePath))
+                            {
+                                System.IO.File.Delete(oldfilePath);
+                            }
+                        }
+                        catch
+                        {
+                            ModelState.AddModelError("", "Loi Delete");
+                        }
+                    }
+                    FileStream fs = new FileStream(filePath, FileMode.Create);
+                    await model.ImageUpload.CopyToAsync(fs);
+                    fs.Close();
+                    existed_khachHang.Hinh = imageName;
+
+                }
+                existed_khachHang.MaKh = model.MaKh;
+                existed_khachHang.MatKhau = model.MatKhau;
+                existed_khachHang.NgaySinh = model.NgaySinh;
+                existed_khachHang.DiaChi = model.DiaChi;
+                existed_khachHang.DienThoai = model.DienThoai;
+                existed_khachHang.Email = model.Email;
+                existed_khachHang.HieuLuc = true;
+                existed_khachHang.GioiTinh = model.GioiTinh;
+                existed_khachHang.HoTen = model.HoTen;
+                existed_khachHang.VaiTro = 0;
+                await _context.UpdateAsync(existed_khachHang);
+                TempData["MessageUpdateInfo"] = "Chỉnh sửa thành công !";
+                return RedirectToAction("Index", "HangHoa");
+            }
+            return RedirectToAction("Profile", model);
         }
         #endregion
 

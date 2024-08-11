@@ -17,6 +17,7 @@ namespace EcommerceWeb.Helpers
             CreateMap<NhaCungCapAdminModel, NhaCungCap>().ReverseMap();
             CreateMap<NhanVien, NhanVienAdminModel>().ReverseMap();
             CreateMap<PhongBan, PhongBanModel>().ReverseMap();
+            CreateMap<KhachHang, KhachHangModel>().ReverseMap();
         }
     }
 }
